@@ -1,0 +1,13 @@
+Typography (Google Fonts)
+Headings = Cinzel
+Body Text = Inter
+
+Brand Color Palette
+Primary Accent / Brand Blue = #00669c
+Darker Blue Shade = #00456b
+Secondary Accent / Brand Gold = #f6c553  
+Typography Deep Slate = #111827
+
+Background Tones:
+Pure White = #FFFFFF or the primary canvas breathing room.
+Pearlescent Off-White = #F9FAFB to gently highlight
