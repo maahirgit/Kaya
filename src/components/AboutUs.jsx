@@ -22,12 +22,8 @@ export default function AboutUs() {
           </h2>
           <div className="accent-divider"></div>
           <p className="body-text">
-
             In the B2B fashion sector, the winner isn't just the one with the best design—it’s the one with the fastest supply chain. For retail chains and wholesalers, the challenge is maintaining high inventory turnover while keeping acquisition costs low.
           </p>
-          {/* <p className="body-text">
-            In the B2B fashion sector, the winner isn't just the one with the best design—it’s the one with the fastest supply chain. For retail chains and wholesalers, the challenge is maintaining high inventory turnover while keeping acquisition costs low.
-          </p> */}
           <p className="body-text">
             At Kaya Kurti (Kalash India Fabtex Pvt. Ltd), we serve as the manufacturing engine for brands that demand agility. We don't just make kurtis; we build the inventory that drives your revenue.
           </p>
