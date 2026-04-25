@@ -21,18 +21,16 @@ export default function App() {
       })
     }, { threshold: 0.1 })
     
-    // Initial scan
     const selectors = '.reveal-up, .reveal-left, .reveal-right, .fade-in'
     document.querySelectorAll(selectors).forEach(el => revealObserver.observe(el))
     
-    // Observe DOM mutations to catch dynamically added or hot-reloaded elements
     const mutationObserver = new MutationObserver((mutations) => {
       mutations.forEach((mutation) => {
         if (mutation.addedNodes.length) {
           mutation.addedNodes.forEach((node) => {
-            if (node.nodeType === 1) { // Element node
+            if (node.nodeType === 1) { 
               if (node.matches && node.matches(selectors)) revealObserver.observe(node)
-              // Also check children
+              
               const children = node.querySelectorAll ? node.querySelectorAll(selectors) : []
               children.forEach(el => revealObserver.observe(el))
             }
@@ -48,6 +46,7 @@ export default function App() {
       mutationObserver.disconnect()
     }
   }, [location.pathname])
+
 
   return (
     <WishlistProvider>
@@ -70,3 +69,4 @@ export default function App() {
     </WishlistProvider>
   )
 }
+

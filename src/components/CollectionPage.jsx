@@ -20,7 +20,6 @@ export default function CollectionPage() {
   const [allUnlocked, setAllUnlocked] = useState(false)
   const { toggleWishlist, isInWishlist } = useWishlist()
 
-  // Persist unlock state
   useEffect(() => {
     if (localStorage.getItem('kaya_collections_unlocked') === 'true') {
       setAllUnlocked(true)
@@ -31,7 +30,7 @@ export default function CollectionPage() {
     window.scrollTo(0, 0)
   }, [])
 
-  /* ── Catalogue Lightbox keyboard nav ── */
+  
   const closeLightbox = useCallback(() => setLightboxIndex(null), [])
 
   const prevImage = useCallback(() => {
@@ -55,7 +54,7 @@ export default function CollectionPage() {
     return () => window.removeEventListener('keydown', handler)
   }, [lightboxIndex, prevImage, nextImage, closeLightbox])
 
-  /* ── Combo Lightbox keyboard nav ── */
+  
   const closeComboLightbox = useCallback(() => setComboLightboxIndex(null), [])
 
   const prevComboImage = useCallback(() => {
@@ -113,12 +112,12 @@ export default function CollectionPage() {
         </div>
       </header>
 
-      {/* ── Catalogue Tab ── */}
+      
       {activeTab === 'catalogue' && (
         <section id="catalogue-section" style={{ padding: '180px 0 120px' }}>
           <div className="container">
 
-            {/* Back button when a collection is open */}
+            
             {activeCollection && (
               <button
                 className="coll-back-btn"
@@ -129,7 +128,7 @@ export default function CollectionPage() {
               </button>
             )}
 
-            {/* ── Collection Grid (landing) ── */}
+            
             {!activeCollection && (
               <>
                 <div className="coll-card-grid">
@@ -165,7 +164,7 @@ export default function CollectionPage() {
                   ))}
                 </div>
 
-                {/* ── Show More gate ── */}
+                
                 {!allUnlocked && (
                   <div className="coll-gate">
                     <div className="coll-gate-fade" />
@@ -186,7 +185,7 @@ export default function CollectionPage() {
               </>
             )}
 
-            {/* ── Collection Detail (all images) ── */}
+            
             {activeCollection && (
               <>
                 <div className="coll-detail-header">
@@ -229,12 +228,12 @@ export default function CollectionPage() {
         </section>
       )}
 
-      {/* ── Combo Tab ── */}
+      
       {activeTab === 'sizecombo' && (
         <section id="size-combo-section" style={{ padding: '180px 0 120px' }}>
           <div className="container">
 
-            {/* Back button */}
+            
             {activeCombo && (
               <button className="coll-back-btn" onClick={() => setActiveCombo(null)}>
                 <ArrowLeft size={16} />
@@ -242,7 +241,7 @@ export default function CollectionPage() {
               </button>
             )}
 
-            {/* ── Combo Card Grid ── */}
+            
             {!activeCombo && (
               <>
                 <div className="text-center" style={{ marginBottom: '60px' }}>
@@ -285,14 +284,14 @@ export default function CollectionPage() {
               </>
             )}
 
-            {/* ── Combo Detail ── */}
+            
             {activeCombo && (
               <>
                 <div className="coll-detail-header">
                   <h2 className="section-title">{activeCombo.name}</h2>
                   <p className="body-text">{activeCombo.tagline}</p>
                   <div className="accent-divider" />
-                  {/* Colour chips */}
+                  
                   <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', marginBottom: '40px' }}>
                     {activeCombo.colors.map(c => (
                       <span key={c} className="size-pill size-pill-lg">{c}</span>
@@ -335,7 +334,7 @@ export default function CollectionPage() {
         </section>
       )}
 
-      {/* ── Combo Lightbox ── */}
+      
       {comboLightboxIndex !== null && activeCombo && (
         <div
           className="lightbox-overlay"
@@ -377,7 +376,7 @@ export default function CollectionPage() {
         </div>
       )}
 
-      {/* ── Lightbox ── */}
+      
       {lightboxIndex !== null && activeCollection && (
         <div
           className="lightbox-overlay"
@@ -423,7 +422,7 @@ export default function CollectionPage() {
         </div>
       )}
 
-      {/* ── Unlock Collections Modal ── */}
+      
       {isUnlockModalOpen && (
         <UnlockModal
           onClose={() => setIsUnlockModalOpen(false)}
@@ -444,7 +443,7 @@ export default function CollectionPage() {
   )
 }
 
-/* ── Inline Unlock Modal ── */
+
 function UnlockModal({ onClose, onUnlock }) {
   const [formData, setFormData] = useState({ name: '', email: '', phone: '', message: '' })
   const [submitted, setSubmitted] = useState(false)
@@ -590,3 +589,4 @@ function UnlockModal({ onClose, onUnlock }) {
     </div>
   )
 }
+

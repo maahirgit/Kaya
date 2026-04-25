@@ -13,7 +13,6 @@ export default function WishlistPage() {
   const [isEnquiryModalOpen, setIsEnquiryModalOpen] = useState(false)
   const [enquiryProduct, setEnquiryProduct] = useState(null)
 
-  // Combine all product types into a unified structure
   const allItems = [
     ...products,
     ...collections.map(c => ({
@@ -34,7 +33,6 @@ export default function WishlistPage() {
     }))
   ]
 
-  // Get only products that are in the wishlist
   const wishlistProducts = allItems.filter(p => wishlist.includes(p.id))
 
   useEffect(() => {
@@ -132,3 +130,4 @@ export default function WishlistPage() {
     </div>
   )
 }
+

@@ -37,7 +37,7 @@ export default function BlogSection() {
         </div>
       </div>
 
-      {/* Blog Modal */}
+      
       {activeBlog && (
         <div className="modal-overlay" onClick={() => setActiveBlog(null)}>
           <div className="modal-content blog-modal" onClick={e => e.stopPropagation()}>
@@ -61,3 +61,4 @@ export default function BlogSection() {
     </section>
   )
 }
+

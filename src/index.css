@@ -23,7 +23,7 @@
   --space-xl: calc(var(--space-unit) * 12);
 }
 
-/* Spacing Utilities */
+
 .mt-xs {
   margin-top: var(--space-xs)
 }
@@ -1010,7 +1010,7 @@ label {
   display: none
 }
 
-/* Wishlist Styles */
+
 .nav-item-wishlist {
   display: flex !important;
   align-items: center;
@@ -1120,13 +1120,13 @@ label {
   }
 }
 
-/* ── About Split Section ── */
+
 .about-split {
   background: var(--bg-white);
   width: 100%;
   border-top: 1px solid rgba(0, 0, 0, 0.05);
   padding: 80px 0 0;
-  /* Completely removed bottom padding */
+  
 }
 
 .about-split-inner {
@@ -1147,7 +1147,7 @@ label {
 .about-split-img-frame {
   width: 100%;
   height: calc(100% - 310px);
-  /* Total reduction 310px */
+  
   position: relative;
   overflow: hidden;
   border-radius: var(--radius-sm);
@@ -1190,7 +1190,7 @@ label {
 
   .about-split-img-frame {
     height: auto;
-    aspect-ratio: 1 / 1; /* Further increased height (square) */
+    aspect-ratio: 1 / 1; 
   }
 
   .about-split-text {
@@ -1249,7 +1249,7 @@ label {
   padding-bottom: 80px !important;
 }
 
-/* Video Showcase Section */
+
 .video-section {
   padding: 100px 0;
   background: var(--bg-white);
@@ -1404,7 +1404,7 @@ label {
   }
 }
 
-/* Modal Overlay & Content */
+
 .modal-overlay {
   position: fixed;
   inset: 0;
@@ -1471,7 +1471,7 @@ label {
   color: var(--text-muted);
 }
 
-/* Collection Page Styles */
+
 .collection-page {
   background: var(--bg-white);
 }
@@ -1643,7 +1643,7 @@ label {
   font-weight: 600;
 }
 
-/* Size Chart Styles */
+
 .size-section-header {
   margin-bottom: 40px;
 }
@@ -1697,7 +1697,7 @@ label {
   font-size: 0.95rem;
 }
 
-/* Combo Cards */
+
 .combo-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -1843,9 +1843,7 @@ label {
   margin-bottom: 12px;
 }
 
-/* ─────────────────────────────────────────
-   Collection Card Grid (landing)
-───────────────────────────────────────── */
+
 .coll-grid-header {
   margin-bottom: 8px;
 }
@@ -1953,9 +1951,7 @@ label {
   font-weight: 600;
 }
 
-/* ─────────────────────────────────────────
-   Back button
-───────────────────────────────────────── */
+
 .coll-back-btn {
   display: inline-flex;
   align-items: center;
@@ -1976,9 +1972,7 @@ label {
   color: var(--brand-blue);
 }
 
-/* ─────────────────────────────────────────
-   Collection Detail — image grid
-───────────────────────────────────────── */
+
 .coll-detail-header {
   margin-bottom: 48px;
 }
@@ -2046,9 +2040,7 @@ label {
   line-height: 1;
 }
 
-/* ─────────────────────────────────────────
-   Lightbox
-───────────────────────────────────────── */
+
 .lightbox-overlay {
   position: fixed;
   inset: 0;
@@ -2166,9 +2158,7 @@ label {
   }
 }
 
-/* ─────────────────────────────────────────
-   Collection Gate (Show More)
-───────────────────────────────────────── */
+
 .coll-gate {
   position: relative;
   text-align: center;
@@ -2204,9 +2194,7 @@ label {
   gap: 10px;
 }
 
-/* ─────────────────────────────────────────
-   Blog Section
-───────────────────────────────────────── */
+
 .blog-section {
   background: var(--bg-off-white);
 }
@@ -2269,7 +2257,7 @@ label {
   flex-grow: 1;
 }
 
-/* Blog Modal Specifics */
+
 .blog-modal {
   max-width: 800px;
   max-height: 90vh;
@@ -2329,7 +2317,7 @@ label {
   margin-bottom: 8px;
 }
 
-/* ── Business Card Uploader ── */
+
 .business-card-uploader {
   margin-bottom: 24px;
 }

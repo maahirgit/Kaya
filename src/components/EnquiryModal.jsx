@@ -36,7 +36,7 @@ export default function EnquiryModal({ isOpen, onClose, product }) {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    // Logic for submitting enquiry (e.g., API call)
+
     setSubmitted(true)
     setTimeout(() => {
       setSubmitted(false)
@@ -154,3 +154,4 @@ export default function EnquiryModal({ isOpen, onClose, product }) {
     </div>
   )
 }
+

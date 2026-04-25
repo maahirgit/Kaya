@@ -3,7 +3,7 @@ import Hero from '../components/Hero'
 import AboutUs from '../components/AboutUs'
 import Catalogue from '../components/Catalogue'
 import BlogSection from '../components/BlogSection'
-// import ClientsVideo from '../components/ClientsVideo'
+
 import SEO from '../components/SEO'
 
 export default function Home() {
@@ -20,7 +20,8 @@ export default function Home() {
       <AboutUs />
       <Catalogue />
       <BlogSection />
-      {/* <ClientsVideo /> */}
+      
     </>
   )
 }
+

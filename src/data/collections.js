@@ -1,11 +1,10 @@
-// Helper — generates an array of image paths for a collection folder
+
 const imgs = (folder, count) =>
   Array.from({ length: count }, (_, i) => {
     const n = String(i + 1).padStart(2, '0')
     return `/assets/collections/${folder}/${n}.jpg`
   })
 
-// Each collection = one named folder from the client's project directory
 export const collections = [
   {
     id: 'abhinetri',
@@ -92,3 +91,4 @@ export const collections = [
     images: imgs('113-MONIKA', 11),
   },
 ]
+

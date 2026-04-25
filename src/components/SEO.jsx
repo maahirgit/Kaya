@@ -34,3 +34,4 @@ SEO.propTypes = {
   url: PropTypes.string,
   image: PropTypes.string,
 };
+

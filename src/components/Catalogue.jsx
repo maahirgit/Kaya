@@ -20,9 +20,7 @@ export default function Catalogue() {
     { ...collections[1], type: 'Collection' }
   ]
 
-  useEffect(() => {
-    // Reveal animation logic handled by intersection observer in parent or globally if needed
-  }, [])
+  useEffect(() => {}, [])
 
   const handleExploreClick = () => {
     const hasVisited = localStorage.getItem('hasVisitedLeadForm')

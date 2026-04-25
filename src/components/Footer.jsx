@@ -36,7 +36,7 @@ export default function Footer() {
       <div className="container">
         <div className="footer-main-grid">
 
-          {/* Left — Brand info */}
+          
           <div className="footer-left reveal-up">
 
             <p className="body-text" style={{ maxWidth: 320 }}>
@@ -61,7 +61,7 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Right — Contact form */}
+          
           <div className="footer-right reveal-up delay-1" id="booking">
             <h4 className="text-blue footer-form-title">Send Us a Message</h4>
             {!submitted ? (
@@ -139,3 +139,4 @@ export default function Footer() {
     </footer>
   )
 }
+

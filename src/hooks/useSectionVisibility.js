@@ -23,3 +23,4 @@ export function useSectionVisibility(ref, threshold = 0.5) {
 
   return isVisible;
 }
+

@@ -34,7 +34,7 @@ export default function Navbar() {
                 <li><a href="#about" className="nav-link">About</a></li>
                 <li><a href="#catalogue" className="nav-link">Collection</a></li>
                 <li><a href="#blog" className="nav-link">Blogs</a></li>
-                {/* <li><a href="#video-showcase" className="nav-link">Process</a></li> */}
+                
                 <li className="nav-item-wishlist">
                   <Link to="/wishlist" className="nav-link wishlist-icon-link">
                     <Heart size={20} className={wishlist.length > 0 ? 'text-blue fill-blue' : ''} />
@@ -47,7 +47,7 @@ export default function Navbar() {
                 <li><Link to="/" className="nav-link">Home</Link></li>
                 <li><Link to="/collection" className="nav-link">Collection</Link></li>
                 <li><Link to="/#blog" className="nav-link">Blogs</Link></li>
-                {/* <li><Link to="/#video-showcase" className="nav-link">Process</Link></li> */}
+                
                 <li className="nav-item-wishlist">
                   <Link to="/wishlist" className="nav-link wishlist-icon-link">
                     <Heart size={20} className={wishlist.length > 0 ? 'text-blue fill-blue' : ''} />
@@ -74,7 +74,7 @@ export default function Navbar() {
             <li><a href="#about" onClick={() => setMenuOpen(false)}>About</a></li>
             <li><a href="#catalogue" onClick={() => setMenuOpen(false)}>Collection</a></li>
             <li><a href="#blog" onClick={() => setMenuOpen(false)}>Blogs</a></li>
-            {/* <li><a href="#video-showcase" onClick={() => setMenuOpen(false)}>Process</a></li> */}
+            
             <li><Link to="/wishlist" onClick={() => setMenuOpen(false)}>Wishlist ({wishlist.length})</Link></li>
           </ul>
         </div>
@@ -82,3 +82,4 @@ export default function Navbar() {
     </>
   )
 }
+

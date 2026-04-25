@@ -34,7 +34,7 @@ export default function LeadFormModal({ isOpen, onClose, onFormSuccess }) {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    // In a real app, you would send this data to a backend or CRM
+
     localStorage.setItem('hasVisitedLeadForm', 'true')
     onFormSuccess()
   }
@@ -131,3 +131,4 @@ export default function LeadFormModal({ isOpen, onClose, onFormSuccess }) {
     </div>
   )
 }
+
