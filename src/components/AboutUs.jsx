@@ -8,7 +8,7 @@ export default function AboutUs() {
         <div className="about-split-img reveal-left">
           <div className="about-split-img-frame">
             <img
-              src="/assets/about_us_lifestyle.png"
+              src="/assets/About_Us_Img.png"
               alt="Premium minimalist lifestyle - Kaya boutique"
               loading="lazy"
             />

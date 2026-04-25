@@ -45,7 +45,7 @@ export default function Footer() {
 
             <div className="footer-contact-info">
               <h4 className="text-blue">Get in Touch</h4>
-              <p>Safal 3, E-48 Ground floor,<br />Sumel Business Park 3, near New Cloth Market,<br />Sarangpur, Sherkotda, Ahmedabad, Gujarat 380002</p>
+              <p>E-48 Ground floor,<br />Safal 3, near New Cloth Market,<br />Sarangpur, Sherkotda, Ahmedabad, Gujarat 380002</p>
               <div className="mt-md">
                 <a href="tel:+919601127234" className="d-block">+91 96011 27234</a>
                 <a href="mailto:online.kayakalash@gmail.com" className="d-block mt-xs">online.kayakalash@gmail.com</a>
