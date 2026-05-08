@@ -51,10 +51,11 @@ export default function App() {
   return (
     <WishlistProvider>
       <SEO 
-        title="Kaya | Premium Women's Bottom Wear"
-        description="Shop Kaya for premium women's bottom wear. Discover a versatile range of high-quality leggings, pencil pants, and designer plazos."
-        keywords="women fashion, bottom wear, premium leggings, pencil pants, designer plazos, kaya brand"
+        title="Kaya | New Designs Every Week — Fast Fashion Kurti Manufacturer"
+        description="Your go-to fast fashion manufacturer. New designs in kurtis and kurti sets every week that sell out every time — at reasonable prices for your business."
+        keywords="kurti manufacturer, fast fashion manufacturer, wholesale kurtis, kurti sets, women ethnic wear, bulk kurtis, new kurti designs"
         url="https://www.kayaforyou.com/"
+        image="https://www.kayaforyou.com/kaya-logo.png"
       />
       <Navbar />
       <FloatingWhatsApp />
