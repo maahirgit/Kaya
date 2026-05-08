@@ -54,7 +54,7 @@ export default function App() {
         title="Kaya | Premium Women's Bottom Wear"
         description="Shop Kaya for premium women's bottom wear. Discover a versatile range of high-quality leggings, pencil pants, and designer plazos."
         keywords="women fashion, bottom wear, premium leggings, pencil pants, designer plazos, kaya brand"
-        url="https://yourdomain.com/"
+        url="https://www.kayaforyou.com/"
       />
       <Navbar />
       <FloatingWhatsApp />

@@ -1,0 +1,17 @@
+# Kaya - SPA Routing & 404 Rules
+# ==========================================
+
+# Old Shopify / Liquid URLs → 404
+/look-book                  /404.html  404
+/pages/*                    /404.html  404
+/collections/*              /404.html  404
+/products/*                 /404.html  404
+/blogs/*                    /404.html  404
+/account/*                  /404.html  404
+/cart                       /404.html  404
+/checkout                   /404.html  404
+/search                     /404.html  404
+/policies/*                 /404.html  404
+
+# SPA Catch-all — must be LAST
+/*                          /index.html  200
