@@ -1,18 +1,5 @@
 {
   "rewrites": [
     { "source": "/(.*)", "destination": "/index.html" }
-  ],
-  "routes": [
-    { "src": "/look-book",        "status": 404, "dest": "/404.html" },
-    { "src": "/pages/(.*)",       "status": 404, "dest": "/404.html" },
-    { "src": "/collections/(.*)", "status": 404, "dest": "/404.html" },
-    { "src": "/products/(.*)",    "status": 404, "dest": "/404.html" },
-    { "src": "/blogs/(.*)",       "status": 404, "dest": "/404.html" },
-    { "src": "/account/(.*)",     "status": 404, "dest": "/404.html" },
-    { "src": "/cart",             "status": 404, "dest": "/404.html" },
-    { "src": "/checkout",         "status": 404, "dest": "/404.html" },
-    { "src": "/search",           "status": 404, "dest": "/404.html" },
-    { "src": "/policies/(.*)",    "status": 404, "dest": "/404.html" },
-    { "src": "/(.*)",             "dest": "/index.html" }
   ]
 }
