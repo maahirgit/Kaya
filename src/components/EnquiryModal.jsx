@@ -1,8 +1,11 @@
 import { useState, useRef } from 'react'
 import { X, Send, ShoppingBag, Upload } from 'lucide-react'
+import { submitToSheets } from '../utils/submitToSheets'
+import { uploadToCloudinary } from '../utils/uploadToCloudinary'
 
 export default function EnquiryModal({ isOpen, onClose, product }) {
   const [submitted, setSubmitted] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -34,9 +37,26 @@ export default function EnquiryModal({ isOpen, onClose, product }) {
     if (fileInputRef.current) fileInputRef.current.value = ''
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
+    setIsSubmitting(true)
 
+    let businessCardUrl = ''
+    if (businessCard) {
+      businessCardUrl = await uploadToCloudinary(businessCard.file) || ''
+    }
+
+    await submitToSheets({
+      source: 'Enquiry',
+      name: formData.name,
+      email: formData.email,
+      phone: formData.phone,
+      message: formData.message,
+      product: product?.title || '',
+      businessCardUrl
+    })
+
+    setIsSubmitting(false)
     setSubmitted(true)
     setTimeout(() => {
       setSubmitted(false)
@@ -137,8 +157,8 @@ export default function EnquiryModal({ isOpen, onClose, product }) {
                 </div>
               </div>
               
-              <button type="submit" className="btn btn-primary w-full">
-                <span>Send Enquiry</span>
+              <button type="submit" className="btn btn-primary w-full" disabled={isSubmitting}>
+                <span>{isSubmitting ? 'Sending...' : 'Send Enquiry'}</span>
                 <Send className="icon-sm" />
               </button>
             </form>

@@ -1,21 +1,20 @@
-import { Instagram, Facebook, Upload, X, Image as ImageIcon } from 'lucide-react'
+import { Instagram, Facebook, Upload, X } from 'lucide-react'
 import { useState, useRef } from 'react'
+import { submitToSheets } from '../utils/submitToSheets'
+import { uploadToCloudinary } from '../utils/uploadToCloudinary'
 
 export default function Footer() {
-  const [submitted, setSubmitted] = useState(false)
+  const [formData, setFormData] = useState({ name: '', phone: '', email: '', subject: '', message: '' })
   const [businessCard, setBusinessCard] = useState(null)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitted, setSubmitted] = useState(false)
   const fileInputRef = useRef(null)
 
   const handleFileChange = (e) => {
     const file = e.target.files[0]
     if (file) {
       const reader = new FileReader()
-      reader.onloadend = () => {
-        setBusinessCard({
-          file,
-          preview: reader.result
-        })
-      }
+      reader.onloadend = () => setBusinessCard({ file, preview: reader.result })
       reader.readAsDataURL(file)
     }
   }
@@ -26,8 +25,25 @@ export default function Footer() {
     if (fileInputRef.current) fileInputRef.current.value = ''
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
+    setIsSubmitting(true)
+
+    let businessCardUrl = ''
+    if (businessCard) {
+      businessCardUrl = await uploadToCloudinary(businessCard.file) || ''
+    }
+
+    await submitToSheets({
+      source: 'Footer',
+      name: formData.name,
+      email: formData.email,
+      phone: formData.phone,
+      message: `[${formData.subject}] ${formData.message}`,
+      businessCardUrl
+    })
+
+    setIsSubmitting(false)
     setSubmitted(true)
   }
 
@@ -36,9 +52,7 @@ export default function Footer() {
       <div className="container">
         <div className="footer-main-grid">
 
-          
           <div className="footer-left reveal-up">
-
             <p className="body-text" style={{ maxWidth: 320 }}>
               The premium portfolio for versatile women's bottom wear—elevating every step with comfort and elegance.
             </p>
@@ -61,24 +75,27 @@ export default function Footer() {
             </div>
           </div>
 
-          
           <div className="footer-right reveal-up delay-1" id="booking">
             <h4 className="text-blue footer-form-title">Send Us a Message</h4>
             {!submitted ? (
               <form onSubmit={handleSubmit} className="footer-form">
                 <div className="footer-form-row">
                   <div className="form-group">
-                    <input type="text" placeholder="Full Name" required className="bottom-border-input" />
+                    <input type="text" placeholder="Full Name" required className="bottom-border-input"
+                      value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} />
                   </div>
                   <div className="form-group">
-                    <input type="tel" placeholder="Phone Number" className="bottom-border-input" />
+                    <input type="tel" placeholder="Phone Number" className="bottom-border-input"
+                      value={formData.phone} onChange={(e) => setFormData({ ...formData, phone: e.target.value })} />
                   </div>
                 </div>
                 <div className="form-group">
-                  <input type="email" placeholder="Email Address" required className="bottom-border-input" />
+                  <input type="email" placeholder="Email Address" required className="bottom-border-input"
+                    value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} />
                 </div>
                 <div className="form-group">
-                  <input type="text" placeholder="Subject" className="bottom-border-input" />
+                  <input type="text" placeholder="Subject" className="bottom-border-input"
+                    value={formData.subject} onChange={(e) => setFormData({ ...formData, subject: e.target.value })} />
                 </div>
                 <div className="form-group">
                   <textarea
@@ -86,17 +103,19 @@ export default function Footer() {
                     required
                     className="bottom-border-input contact-textarea"
                     rows={3}
+                    value={formData.message}
+                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                   />
                 </div>
 
                 <div className="business-card-uploader">
                   <label className="uploader-label">Upload your business card</label>
-                  <div 
+                  <div
                     className={`upload-area ${businessCard ? 'has-file' : ''}`}
                     onClick={() => fileInputRef.current?.click()}
                   >
-                    <input 
-                      type="file" 
+                    <input
+                      type="file"
                       ref={fileInputRef}
                       onChange={handleFileChange}
                       accept="image/*"
@@ -121,7 +140,9 @@ export default function Footer() {
                   </div>
                 </div>
 
-                <button type="submit" className="btn btn-primary w-full">Send Message</button>
+                <button type="submit" className="btn btn-primary w-full" disabled={isSubmitting}>
+                  {isSubmitting ? 'Sending...' : 'Send Message'}
+                </button>
               </form>
             ) : (
               <div className="text-center" style={{ padding: '40px 0' }}>
@@ -139,4 +160,3 @@ export default function Footer() {
     </footer>
   )
 }
-

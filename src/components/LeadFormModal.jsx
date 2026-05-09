@@ -1,5 +1,7 @@
 import { useState, useRef } from 'react'
 import { X, Send, Upload } from 'lucide-react'
+import { submitToSheets } from '../utils/submitToSheets'
+import { uploadToCloudinary } from '../utils/uploadToCloudinary'
 
 export default function LeadFormModal({ isOpen, onClose, onFormSuccess }) {
   const [formData, setFormData] = useState({
@@ -8,6 +10,7 @@ export default function LeadFormModal({ isOpen, onClose, onFormSuccess }) {
     phone: ''
   })
   const [businessCard, setBusinessCard] = useState(null)
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const fileInputRef = useRef(null)
 
   if (!isOpen) return null
@@ -32,9 +35,24 @@ export default function LeadFormModal({ isOpen, onClose, onFormSuccess }) {
     if (fileInputRef.current) fileInputRef.current.value = ''
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
+    setIsSubmitting(true)
 
+    let businessCardUrl = ''
+    if (businessCard) {
+      businessCardUrl = await uploadToCloudinary(businessCard.file) || ''
+    }
+
+    await submitToSheets({
+      source: 'LeadForm',
+      name: formData.name,
+      email: formData.email,
+      phone: formData.phone,
+      businessCardUrl
+    })
+
+    setIsSubmitting(false)
     localStorage.setItem('hasVisitedLeadForm', 'true')
     onFormSuccess()
   }
@@ -118,8 +136,8 @@ export default function LeadFormModal({ isOpen, onClose, onFormSuccess }) {
             </div>
           </div>
 
-          <button type="submit" className="btn btn-primary w-full mt-md">
-            <span>Access Collection</span>
+          <button type="submit" className="btn btn-primary w-full mt-md" disabled={isSubmitting}>
+            <span>{isSubmitting ? 'Submitting...' : 'Access Collection'}</span>
             <Send className="icon-sm" />
           </button>
           
