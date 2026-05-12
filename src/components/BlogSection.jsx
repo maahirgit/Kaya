@@ -1,9 +1,29 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { X, ArrowRight } from 'lucide-react'
 import { blogs } from '../data/blogs'
 
 export default function BlogSection() {
   const [activeBlog, setActiveBlog] = useState(null)
+
+  useEffect(() => {
+    // If URL has a blog ID, open it automatically
+    const path = window.location.pathname
+    if (path.startsWith('/blogs/') && path.length > 7) {
+      const blogId = path.split('/blogs/')[1]
+      const blog = blogs.find(b => b.id === blogId)
+      if (blog) setActiveBlog(blog)
+    }
+  }, [])
+
+  const handleOpenBlog = (blog) => {
+    setActiveBlog(blog)
+    window.history.pushState(null, '', `/blogs/${blog.id}`)
+  }
+
+  const handleCloseBlog = () => {
+    setActiveBlog(null)
+    window.history.pushState(null, '', '/')
+  }
 
   return (
     <section className="blog-section section-padding" id="blog">
@@ -20,6 +40,11 @@ export default function BlogSection() {
             <div 
               key={blog.id} 
               className={`blog-card reveal-up delay-${(idx % 3) + 1}`}
+              onClick={() => handleOpenBlog(blog)}
+              style={{ cursor: 'pointer' }}
+              role="button"
+              tabIndex="0"
+              onKeyDown={(e) => { if (e.key === 'Enter') handleOpenBlog(blog) }}
             >
               <div className="blog-card-content">
                 <span className="blog-date">{blog.date}</span>
@@ -27,7 +52,10 @@ export default function BlogSection() {
                 <p className="blog-excerpt">{blog.excerpt}</p>
                 <button 
                   className="btn-text mt-sm"
-                  onClick={() => setActiveBlog(blog)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleOpenBlog(blog);
+                  }}
                 >
                   Read Full Article <ArrowRight size={16} />
                 </button>
@@ -37,11 +65,10 @@ export default function BlogSection() {
         </div>
       </div>
 
-      
       {activeBlog && (
-        <div className="modal-overlay" onClick={() => setActiveBlog(null)}>
+        <div className="modal-overlay" onClick={handleCloseBlog}>
           <div className="modal-content blog-modal" onClick={e => e.stopPropagation()}>
-            <button className="modal-close" onClick={() => setActiveBlog(null)} aria-label="Close">
+            <button className="modal-close" onClick={handleCloseBlog} aria-label="Close">
               <X />
             </button>
             <div className="blog-modal-header">

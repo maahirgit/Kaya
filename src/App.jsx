@@ -4,6 +4,8 @@ import Navbar from './components/Navbar'
 import Home from './components/Home'
 import CollectionPage from './components/CollectionPage'
 import WishlistPage from './components/WishlistPage'
+import AboutPage from './components/AboutPage'
+import BlogsPage from './components/BlogsPage'
 import NotFound from './components/NotFound'
 import Footer from './components/Footer'
 import FloatingWhatsApp from './components/FloatingWhatsApp'
@@ -63,7 +65,10 @@ export default function App() {
       
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/about" element={<AboutPage />} />
         <Route path="/collection" element={<CollectionPage />} />
+        <Route path="/blogs" element={<BlogsPage />} />
+        <Route path="/blogs/:id" element={<Home />} />
         <Route path="/wishlist" element={<WishlistPage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>

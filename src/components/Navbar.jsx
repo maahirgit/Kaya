@@ -29,33 +29,17 @@ export default function Navbar() {
             <img src="/kaya-logo.png" alt="Kaya Logo" className="nav-logo-img" />
           </Link>
           <ul className="nav-links">
-            {isHome ? (
-              <>
-                <li><a href="#about" className="nav-link">About</a></li>
-                <li><a href="#catalogue" className="nav-link">Collection</a></li>
-                <li><a href="#blog" className="nav-link">Blogs</a></li>
-                
-                <li className="nav-item-wishlist">
-                  <Link to="/wishlist" className="nav-link wishlist-icon-link">
-                    <Heart size={20} className={wishlist.length > 0 ? 'text-blue fill-blue' : ''} />
-                    {wishlist.length > 0 && <span className="wishlist-badge">{wishlist.length}</span>}
-                  </Link>
-                </li>
-              </>
-            ) : (
-              <>
-                <li><Link to="/" className="nav-link">Home</Link></li>
-                <li><Link to="/collection" className="nav-link">Collection</Link></li>
-                <li><Link to="/#blog" className="nav-link">Blogs</Link></li>
-                
-                <li className="nav-item-wishlist">
-                  <Link to="/wishlist" className="nav-link wishlist-icon-link">
-                    <Heart size={20} className={wishlist.length > 0 ? 'text-blue fill-blue' : ''} />
-                    {wishlist.length > 0 && <span className="wishlist-badge">{wishlist.length}</span>}
-                  </Link>
-                </li>
-              </>
-            )}
+            <li><Link to="/" className="nav-link">Home</Link></li>
+            <li><Link to="/about" className="nav-link">About</Link></li>
+            <li><Link to="/collection" className="nav-link">Collection</Link></li>
+            <li><Link to="/blogs" className="nav-link">Blogs</Link></li>
+            
+            <li className="nav-item-wishlist">
+              <Link to="/wishlist" className="nav-link wishlist-icon-link">
+                <Heart size={20} className={wishlist.length > 0 ? 'text-blue fill-blue' : ''} />
+                {wishlist.length > 0 && <span className="wishlist-badge">{wishlist.length}</span>}
+              </Link>
+            </li>
           </ul>
           <div className="hamburger" onClick={() => setMenuOpen(true)}>
             <Menu />
@@ -71,9 +55,9 @@ export default function Navbar() {
           </button>
           <ul>
             <li><Link to="/" onClick={() => setMenuOpen(false)}>Home</Link></li>
-            <li><a href="#about" onClick={() => setMenuOpen(false)}>About</a></li>
-            <li><a href="#catalogue" onClick={() => setMenuOpen(false)}>Collection</a></li>
-            <li><a href="#blog" onClick={() => setMenuOpen(false)}>Blogs</a></li>
+            <li><Link to="/about" onClick={() => setMenuOpen(false)}>About</Link></li>
+            <li><Link to="/collection" onClick={() => setMenuOpen(false)}>Collection</Link></li>
+            <li><Link to="/blogs" onClick={() => setMenuOpen(false)}>Blogs</Link></li>
             
             <li><Link to="/wishlist" onClick={() => setMenuOpen(false)}>Wishlist ({wishlist.length})</Link></li>
           </ul>
