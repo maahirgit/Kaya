@@ -53,10 +53,6 @@ export default function Footer() {
         <div className="footer-main-grid">
 
           <div className="footer-left reveal-up">
-            <p className="body-text" style={{ maxWidth: 320 }}>
-              The premium portfolio for versatile women's bottom wear—elevating every step with comfort and elegance.
-            </p>
-
             <div className="footer-contact-info">
               <h4 className="text-blue">Get in Touch</h4>
               <p>E-48 Ground floor,<br />Safal 3, near New Cloth Market,<br />Sarangpur, Sherkotda, Ahmedabad, Gujarat 380002</p>

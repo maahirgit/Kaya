@@ -77,9 +77,9 @@ export default function WishlistPage() {
                 <Heart size={64} strokeWidth={1} className="text-muted" />
               </div>
               <h3>Your wishlist is empty</h3>
-              <p className="body-text mb-lg">You haven't saved any items yet. Explore our collection to find your favorites.</p>
+              <p className="body-text mb-lg">You haven't saved any items yet. Explore Our Collection to find your favorites.</p>
               <Link to="/collection" className="btn btn-primary">
-                Explore Collection
+                Explore Our Collection
               </Link>
             </div>
           ) : (

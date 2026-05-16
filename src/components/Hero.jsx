@@ -62,7 +62,7 @@ export default function Hero() {
         <p className="hero-subtitle">Get the newest designs in kurtis and kurti sets at reasonable prices for your business</p>
         <div className="hero-ctas">
           <button onClick={handleExploreClick} className="btn btn-primary">
-            <span>Explore Collection</span>
+            <span>Explore Our Collection</span>
             <ArrowRight className="icon-sm" />
           </button>
         </div>

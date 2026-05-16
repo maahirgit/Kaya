@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Menu, X, Heart } from 'lucide-react'
-import { useLocation, Link } from 'react-router-dom'
+import { useLocation, Link, NavLink } from 'react-router-dom'
 import { useWishlist } from '../context/WishlistContext'
 
 export default function Navbar() {
@@ -29,11 +29,11 @@ export default function Navbar() {
             <img src="/kaya-logo.png" alt="Kaya Logo" className="nav-logo-img" />
           </Link>
           <ul className="nav-links">
-            <li><Link to="/" className="nav-link">Home</Link></li>
-            <li><Link to="/about" className="nav-link">About</Link></li>
-            <li><Link to="/collection" className="nav-link">Collection</Link></li>
-            <li><Link to="/blogs" className="nav-link">Blogs</Link></li>
-            
+            <li><NavLink to="/" className={({ isActive }) => `nav-link ${isActive ? 'text-yellow' : ''}`}>Home</NavLink></li>
+            <li><NavLink to="/about" className={({ isActive }) => `nav-link ${isActive ? 'text-yellow' : ''}`}>About</NavLink></li>
+            <li><NavLink to="/collection" className={({ isActive }) => `nav-link ${isActive ? 'text-yellow' : ''}`}>Collection</NavLink></li>
+            <li><NavLink to="/blogs" className={({ isActive }) => `nav-link ${isActive ? 'text-yellow' : ''}`}>Blogs</NavLink></li>
+
             <li className="nav-item-wishlist">
               <Link to="/wishlist" className="nav-link wishlist-icon-link">
                 <Heart size={20} className={wishlist.length > 0 ? 'text-blue fill-blue' : ''} />
@@ -46,7 +46,7 @@ export default function Navbar() {
           </div>
         </div>
       </nav>
-      
+
       <div className={`mobile-menu ${menuOpen ? 'active' : ''}`}>
         <div className="menu-overlay" onClick={() => setMenuOpen(false)}></div>
         <div className="menu-content">
@@ -54,11 +54,11 @@ export default function Navbar() {
             <X />
           </button>
           <ul>
-            <li><Link to="/" onClick={() => setMenuOpen(false)}>Home</Link></li>
-            <li><Link to="/about" onClick={() => setMenuOpen(false)}>About</Link></li>
-            <li><Link to="/collection" onClick={() => setMenuOpen(false)}>Collection</Link></li>
-            <li><Link to="/blogs" onClick={() => setMenuOpen(false)}>Blogs</Link></li>
-            
+            <li><NavLink to="/" onClick={() => setMenuOpen(false)} className={({ isActive }) => isActive ? 'text-yellow' : ''}>Home</NavLink></li>
+            <li><NavLink to="/about" onClick={() => setMenuOpen(false)} className={({ isActive }) => isActive ? 'text-yellow' : ''}>About</NavLink></li>
+            <li><NavLink to="/collection" onClick={() => setMenuOpen(false)} className={({ isActive }) => isActive ? 'text-yellow' : ''}>Collection</NavLink></li>
+            <li><NavLink to="/blogs" onClick={() => setMenuOpen(false)} className={({ isActive }) => isActive ? 'text-yellow' : ''}>Blogs</NavLink></li>
+
             <li><Link to="/wishlist" onClick={() => setMenuOpen(false)}>Wishlist ({wishlist.length})</Link></li>
           </ul>
         </div>

@@ -28,7 +28,7 @@ export default function AboutUs() {
             At Kaya Kurti (Kalash India Fabtex Pvt. Ltd), we serve as the manufacturing engine for brands that demand agility. We don't just make kurtis; we build the inventory that drives your revenue.
           </p>
           <a href="#catalogue" className="btn btn-primary" style={{ display: 'inline-flex', marginTop: '8px' }}>
-            <span>Explore the Collection</span>
+            <span>Explore Our Collection</span>
             <ArrowRight size={16} />
           </a>
         </div>
