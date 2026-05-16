@@ -25,4 +25,40 @@
     <priority>0.6</priority>
   </url>
 
+  <!-- About Page -->
+  <url>
+    <loc>https://www.kayaforyou.com/about</loc>
+    <lastmod>2026-05-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Blogs Index Page -->
+  <url>
+    <loc>https://www.kayaforyou.com/blogs</loc>
+    <lastmod>2026-05-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Individual Blogs -->
+  <url>
+    <loc>https://www.kayaforyou.com/blogs/fabric-guide</loc>
+    <lastmod>2026-05-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.kayaforyou.com/blogs/printed-vs-embroidered</loc>
+    <lastmod>2026-05-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.kayaforyou.com/blogs/right-manufacturer</loc>
+    <lastmod>2026-05-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
 </urlset>
