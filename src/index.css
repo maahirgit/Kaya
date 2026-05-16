@@ -276,7 +276,8 @@ h6 {
   text-transform: uppercase;
   letter-spacing: 2px;
   transition: var(--transition-fast);
-  font-weight: 500
+  font-weight: 500;
+  white-space: nowrap;
 }
 
 .btn-primary {
@@ -1388,7 +1389,10 @@ label {
   }
 
   .btn {
-    width: 100%
+    width: 100%;
+    padding: 16px 20px;
+    font-size: 0.75rem;
+    letter-spacing: 1.5px;
   }
 
   .slide img {
