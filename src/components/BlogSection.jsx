@@ -4,25 +4,40 @@ import { blogs } from '../data/blogs'
 
 export default function BlogSection() {
   const [activeBlog, setActiveBlog] = useState(null)
+  const [openedFromApp, setOpenedFromApp] = useState(false)
 
   useEffect(() => {
-    // If URL has a blog ID, open it automatically
-    const path = window.location.pathname
-    if (path.startsWith('/blogs/') && path.length > 7) {
-      const blogId = path.split('/blogs/')[1]
-      const blog = blogs.find(b => b.id === blogId)
-      if (blog) setActiveBlog(blog)
+    const checkUrl = () => {
+      const path = window.location.pathname
+      if (path.startsWith('/blogs/') && path.length > 7) {
+        const blogId = path.split('/blogs/')[1]
+        const blog = blogs.find(b => b.id === blogId)
+        setActiveBlog(blog || null)
+      } else {
+        setActiveBlog(null)
+      }
     }
+
+    checkUrl()
+
+    window.addEventListener('popstate', checkUrl)
+    return () => window.removeEventListener('popstate', checkUrl)
   }, [])
 
   const handleOpenBlog = (blog) => {
+    setOpenedFromApp(true)
     setActiveBlog(blog)
     window.history.pushState(null, '', `/blogs/${blog.id}`)
   }
 
   const handleCloseBlog = () => {
     setActiveBlog(null)
-    window.history.pushState(null, '', '/')
+    if (openedFromApp) {
+      window.history.back()
+      setOpenedFromApp(false)
+    } else {
+      window.history.pushState(null, '', '/')
+    }
   }
 
   return (

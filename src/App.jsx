@@ -55,7 +55,7 @@ export default function App() {
     <WishlistProvider>
       <SEO 
         title="Kaya | New Designs Every Week — Fast Fashion Kurti Manufacturer"
-        description="Your go-to fast fashion manufacturer. New designs in kurtis and kurti sets every week that sell out every time — at reasonable prices for your business."
+        description="New designs every week that sell out every time. Your go-to fast fashion kurti manufacturer — kurtis and kurti sets at reasonable prices for your business."
         keywords="kurti manufacturer, fast fashion manufacturer, wholesale kurtis, kurti sets, women ethnic wear, bulk kurtis, new kurti designs"
         url="https://www.kayaforyou.com/"
         image="https://www.kayaforyou.com/kaya-logo.png"
