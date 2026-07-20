@@ -6,6 +6,7 @@ import CollectionPage from './components/CollectionPage'
 import WishlistPage from './components/WishlistPage'
 import AboutPage from './components/AboutPage'
 import BlogsPage from './components/BlogsPage'
+import BlogPostPage from './components/BlogPostPage'
 import NotFound from './components/NotFound'
 import Footer from './components/Footer'
 import FloatingWhatsApp from './components/FloatingWhatsApp'
@@ -68,7 +69,7 @@ export default function App() {
         <Route path="/about" element={<AboutPage />} />
         <Route path="/collection" element={<CollectionPage />} />
         <Route path="/blogs" element={<BlogsPage />} />
-        <Route path="/blogs/:id" element={<Home />} />
+        <Route path="/blogs/:id" element={<BlogPostPage />} />
         <Route path="/wishlist" element={<WishlistPage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
