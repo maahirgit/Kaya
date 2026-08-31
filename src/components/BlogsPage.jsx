@@ -12,7 +12,7 @@ export default function BlogsPage() {
       <SEO 
         title="Blogs & Industry Insights | Kaya"
         description="Deep research, market trends, and sourcing guides for B2B buyers."
-        url="https://yourdomain.com/blogs"
+        url="https://www.kayaforyou.com/blogs"
       />
       <BlogSection />
     </div>

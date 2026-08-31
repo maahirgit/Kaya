@@ -83,10 +83,9 @@ export default function CollectionPage() {
   return (
     <div className="collection-page">
       <SEO
-        title="Our Collection | Kaya Premium Bottom Wear"
-        description="Explore Kaya's full collection of premium leggings, pencil pants, and designer plazos. Quality fabrics and perfect fits for every occasion."
-        keywords="kaya collection, designer pants, premium leggings, women bottom wear"
-        url="https://yourdomain.com/collection"
+        title="Our Collection | Kaya"
+        description="Explore our latest collection of premium women's bottom wear. New designs updated weekly."
+        url="https://www.kayaforyou.com/collection"
       />
 
       <header className="collection-hero text-center">

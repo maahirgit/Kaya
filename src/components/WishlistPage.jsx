@@ -44,6 +44,7 @@ export default function WishlistPage() {
       <SEO 
         title="Your Wishlist | Kaya Collection"
         description="View your favorite premium bottom wear from Kaya. Save your top picks and enquire whenever you're ready."
+        url="https://www.kayaforyou.com/wishlist"
       />
 
       <section className="section-padding">

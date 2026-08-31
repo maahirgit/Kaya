@@ -11,8 +11,8 @@ export default function AboutPage() {
     <div style={{ paddingTop: '100px', paddingBottom: '60px' }}>
       <SEO 
         title="About Us | Kaya"
-        description="Learn about Kaya's fast-fashion manufacturing engine in Ahmedabad."
-        url="https://yourdomain.com/about"
+        description="Learn about our manufacturing process and heritage."
+        url="https://www.kayaforyou.com/about"
       />
       <AboutUs />
     </div>
