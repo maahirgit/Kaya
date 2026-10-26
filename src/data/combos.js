@@ -69,5 +69,84 @@ export const combos = [
     ],
     colors: ['Black', 'Cream', 'Green', 'Purple'],
   },
+  {
+    id: 'c-6006',
+    name: 'C-6006',
+    tagline: 'Earthy elegance with delicate leaf motifs',
+    cover: '/assets/combos/C-6006/C-6006-L-COFFEE.jpg',
+    images: [
+      '/assets/combos/C-6006/C-6006-L-COFFEE.jpg',
+    ],
+    colors: ['Light Coffee'],
+  },
+  {
+    id: 'c-6109',
+    name: 'C-6109',
+    tagline: 'Regal lilac with fine zari and floral embroidery',
+    cover: '/assets/combos/C-6109/C-6109-PURPLE.jpg',
+    images: [
+      '/assets/combos/C-6109/C-6109-PURPLE.jpg',
+    ],
+    colors: ['Purple'],
+  },
+  {
+    id: 'c-6922',
+    name: 'C-6922',
+    tagline: 'Graceful emerald elegance in lustrous silk finish',
+    cover: '/assets/combos/C-6922/C-6922-GREEN.jpg',
+    images: [
+      '/assets/combos/C-6922/C-6922-GREEN.jpg',
+    ],
+    colors: ['Green'],
+  },
+  {
+    id: 'c-6925',
+    name: 'C-6925',
+    tagline: 'Radiant festive rani pink with golden accents',
+    cover: '/assets/combos/C-6925/C-6925-RANI-PINK.jpg',
+    images: [
+      '/assets/combos/C-6925/C-6925-RANI-PINK.jpg',
+    ],
+    colors: ['Rani Pink'],
+  },
+  {
+    id: 'c-6963',
+    name: 'C-6963',
+    tagline: 'Subtle sage with velvet floral applique charm',
+    cover: '/assets/combos/C-6963/C-6963-GREEN.jpg',
+    images: [
+      '/assets/combos/C-6963/C-6963-GREEN.jpg',
+    ],
+    colors: ['Green'],
+  },
+  {
+    id: 'c-6968',
+    name: 'C-6968',
+    tagline: 'Shimmering rose peach with intricate neckline',
+    cover: '/assets/combos/C-6968/C-6968-PEACH.jpg',
+    images: [
+      '/assets/combos/C-6968/C-6968-PEACH.jpg',
+    ],
+    colors: ['Peach'],
+  },
+  {
+    id: 'c-7005',
+    name: 'C-7005',
+    tagline: 'Striking dual-tone lavender and ivory contrast',
+    cover: '/assets/combos/C-7005/C-7005-LAVENDER.jpg',
+    images: [
+      '/assets/combos/C-7005/C-7005-LAVENDER.jpg',
+    ],
+    colors: ['Lavender'],
+  },
+  {
+    id: 'c-7008',
+    name: 'C-7008',
+    tagline: 'Warm cream with delicate multi-color embroidery',
+    cover: '/assets/combos/C-7008/C-7008-CREAM.jpg',
+    images: [
+      '/assets/combos/C-7008/C-7008-CREAM.jpg',
+    ],
+    colors: ['Cream'],
+  },
 ]
-

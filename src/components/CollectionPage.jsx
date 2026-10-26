@@ -275,7 +275,7 @@ export default function CollectionPage() {
                       <div className="coll-card-info">
                         <h3 className="coll-card-name">{combo.name}</h3>
                         <p className="coll-card-tagline">{combo.tagline}</p>
-                        <span className="coll-card-count">{combo.colors.length} colours</span>
+                        <span className="coll-card-count">{combo.colors.length} {combo.colors.length === 1 ? 'colour' : 'colours'}</span>
                       </div>
                     </div>
                   ))}
