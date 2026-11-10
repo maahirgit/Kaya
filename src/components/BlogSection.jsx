@@ -1,10 +1,8 @@
 import { ArrowRight } from 'lucide-react'
-import { useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { blogs } from '../data/blogs'
 
 export default function BlogSection() {
-  const navigate = useNavigate()
-
   return (
     <section className="blog-section section-padding" id="blog">
       <div className="container">
@@ -17,30 +15,20 @@ export default function BlogSection() {
 
         <div className="blog-grid mt-xl">
           {blogs.map((blog, idx) => (
-            <div
+            <Link
               key={blog.id}
+              to={`/blogs/${blog.id}`}
               className={`blog-card reveal-up delay-${(idx % 3) + 1}`}
-              onClick={() => navigate(`/blogs/${blog.id}`)}
-              style={{ cursor: 'pointer' }}
-              role="button"
-              tabIndex="0"
-              onKeyDown={(e) => { if (e.key === 'Enter') navigate(`/blogs/${blog.id}`) }}
             >
               <div className="blog-card-content">
                 <span className="blog-date">{blog.date}</span>
                 <h3 className="blog-title">{blog.title}</h3>
                 <p className="blog-excerpt">{blog.excerpt}</p>
-                <button
-                  className="btn-text mt-sm"
-                  onClick={(e) => {
-                    e.stopPropagation()
-                    navigate(`/blogs/${blog.id}`)
-                  }}
-                >
+                <span className="btn-text mt-sm" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
                   Read Full Article <ArrowRight size={16} />
-                </button>
+                </span>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>

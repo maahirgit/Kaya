@@ -30,8 +30,7 @@ export default function BlogPostPage() {
         title={`${blog.title} | Kaya`}
         description={blog.excerpt}
         keywords="kurti manufacturer, wholesale kurtis, fabric guide, kurti business"
-        url={`https://www.kayaforyou.com/blogs/${blog.id}`}
-        image="https://www.kayaforyou.com/kaya-logo.png"
+        path={`/blogs/${blog.id}`}
       />
 
       <div className="blog-post-page">

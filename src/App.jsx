@@ -10,7 +10,6 @@ import BlogPostPage from './components/BlogPostPage'
 import NotFound from './components/NotFound'
 import Footer from './components/Footer'
 import FloatingWhatsApp from './components/FloatingWhatsApp'
-import SEO from './components/SEO'
 import { WishlistProvider } from './context/WishlistContext'
 
 export default function App() {
@@ -54,13 +53,6 @@ export default function App() {
 
   return (
     <WishlistProvider>
-      <SEO 
-        title="Kaya | New Designs Every Week — Fast Fashion Kurti Manufacturer"
-        description="New designs every week that sell out every time. Your go-to fast fashion kurti manufacturer — kurtis and kurti sets at reasonable prices for your business."
-        keywords="kurti manufacturer, fast fashion manufacturer, wholesale kurtis, kurti sets, women ethnic wear, bulk kurtis, new kurti designs"
-        url="https://www.kayaforyou.com/"
-        image="https://www.kayaforyou.com/kaya-logo.png"
-      />
       <Navbar />
       <FloatingWhatsApp />
       
@@ -68,6 +60,11 @@ export default function App() {
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/collection" element={<CollectionPage />} />
+        <Route path="/collection/combos" element={<CollectionPage />} />
+        <Route path="/collection/combos/:itemId" element={<CollectionPage />} />
+        <Route path="/collection/combos/:itemId/:photo" element={<CollectionPage />} />
+        <Route path="/collection/:itemId" element={<CollectionPage />} />
+        <Route path="/collection/:itemId/:photo" element={<CollectionPage />} />
         <Route path="/blogs" element={<BlogsPage />} />
         <Route path="/blogs/:id" element={<BlogPostPage />} />
         <Route path="/wishlist" element={<WishlistPage />} />

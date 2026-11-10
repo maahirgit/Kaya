@@ -150,7 +150,8 @@ export default function Footer() {
         </div>
 
         <div className="footer-bottom text-center">
-          <p>&copy; 2026 Kaya Portfolio. Designed By Design Ville - Maahir Shah</p>
+          <p>&copy; 2026 Kaya Kurti, a venture of Kalash India Fabtex Pvt. Ltd.</p>
+          <p>Designed By Design Ville - Maahir Shah</p>
         </div>
       </div>
     </footer>

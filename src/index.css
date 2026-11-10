@@ -191,7 +191,8 @@ h2,
 h3,
 h4,
 h5,
-h6 {
+h6,
+.heading-style {
   font-family: var(--font-heading);
   font-weight: 500;
   line-height: 1.35;
@@ -1897,6 +1898,16 @@ label {
 
 .coll-card:hover {
   transform: translateY(-6px);
+}
+
+/* Card is a wrapper so the heart button can sit beside (not inside) the link. */
+.coll-card {
+  position: relative;
+}
+
+.coll-card-link {
+  display: block;
+  color: inherit;
 }
 
 .coll-card-img-wrap {

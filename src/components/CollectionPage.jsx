@@ -1,24 +1,50 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
+import { Link, NavLink, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { Heart, ShoppingBag, X, ChevronLeft, ChevronRight, ArrowLeft, Send, ChevronDown, Upload } from 'lucide-react'
-import SEO from '../components/SEO'
-import EnquiryModal from '../components/EnquiryModal'
+import SEO from './SEO'
+import EnquiryModal from './EnquiryModal'
+import NotFound from './NotFound'
 import { useWishlist } from '../context/WishlistContext'
 import { collections } from '../data/collections'
 import { combos } from '../data/combos'
+import { COLLECTIONS_PATH, COMBOS_PATH, collectionPath, comboPath, photoPath, photoAlt } from '../data/routes'
 
 const VISIBLE_BY_DEFAULT = 4
 
+const KINDS = {
+  collection: {
+    items: collections,
+    path: collectionPath,
+    listPath: COLLECTIONS_PATH,
+    label: 'Collection',
+    backLabel: 'All Collections',
+    countLabel: item => `${item.images.length} piece${item.images.length !== 1 ? 's' : ''}`,
+  },
+  combo: {
+    items: combos,
+    path: comboPath,
+    listPath: COMBOS_PATH,
+    label: 'Combo',
+    backLabel: 'All Combos',
+    countLabel: item => `${item.colors.length} ${item.colors.length === 1 ? 'colour' : 'colours'}`,
+  },
+}
+
+// Routes (see App.jsx):
+//   /collection                          collection list
+//   /collection/combos                   combo list
+//   /collection/:itemId[/:photo]         collection detail [+ photo viewer]
+//   /collection/combos/:itemId[/:photo]  combo detail [+ photo viewer]
 export default function CollectionPage() {
-  const [activeTab, setActiveTab] = useState('catalogue')
-  const [activeCollection, setActiveCollection] = useState(null)
-  const [lightboxIndex, setLightboxIndex] = useState(null)
-  const [activeCombo, setActiveCombo] = useState(null)
-  const [comboLightboxIndex, setComboLightboxIndex] = useState(null)
+  const { itemId, photo } = useParams()
+  const { pathname } = useLocation()
+  const kind = pathname === COMBOS_PATH || pathname.startsWith(`${COMBOS_PATH}/`) ? 'combo' : 'collection'
+  const config = KINDS[kind]
+
   const [isEnquiryModalOpen, setIsEnquiryModalOpen] = useState(false)
   const [enquiryProduct, setEnquiryProduct] = useState(null)
   const [isUnlockModalOpen, setIsUnlockModalOpen] = useState(false)
   const [allUnlocked, setAllUnlocked] = useState(false)
-  const { toggleWishlist, isInWishlist } = useWishlist()
 
   useEffect(() => {
     if (localStorage.getItem('kaya_collections_unlocked') === 'true') {
@@ -26,402 +52,92 @@ export default function CollectionPage() {
     }
   }, [])
 
+  // Scroll to top when moving between list and detail pages, not when opening a photo.
   useEffect(() => {
     window.scrollTo(0, 0)
-  }, [])
+  }, [kind, itemId])
 
-  
-  const closeLightbox = useCallback(() => setLightboxIndex(null), [])
+  const item = itemId ? config.items.find(i => i.id === itemId) : null
+  const photoIndex = photo === undefined ? null : Number(photo) - 1
 
-  const prevImage = useCallback(() => {
-    if (!activeCollection) return
-    setLightboxIndex(i => (i - 1 + activeCollection.images.length) % activeCollection.images.length)
-  }, [activeCollection])
+  if (itemId && !item) return <NotFound />
+  if (item && photoIndex !== null && !(Number.isInteger(photoIndex) && photoIndex >= 0 && photoIndex < item.images.length)) {
+    return <NotFound />
+  }
 
-  const nextImage = useCallback(() => {
-    if (!activeCollection) return
-    setLightboxIndex(i => (i + 1) % activeCollection.images.length)
-  }, [activeCollection])
-
-  useEffect(() => {
-    if (lightboxIndex === null) return
-    const handler = e => {
-      if (e.key === 'ArrowLeft') prevImage()
-      if (e.key === 'ArrowRight') nextImage()
-      if (e.key === 'Escape') closeLightbox()
-    }
-    window.addEventListener('keydown', handler)
-    return () => window.removeEventListener('keydown', handler)
-  }, [lightboxIndex, prevImage, nextImage, closeLightbox])
-
-  
-  const closeComboLightbox = useCallback(() => setComboLightboxIndex(null), [])
-
-  const prevComboImage = useCallback(() => {
-    if (!activeCombo) return
-    setComboLightboxIndex(i => (i - 1 + activeCombo.images.length) % activeCombo.images.length)
-  }, [activeCombo])
-
-  const nextComboImage = useCallback(() => {
-    if (!activeCombo) return
-    setComboLightboxIndex(i => (i + 1) % activeCombo.images.length)
-  }, [activeCombo])
-
-  useEffect(() => {
-    if (comboLightboxIndex === null) return
-    const handler = e => {
-      if (e.key === 'ArrowLeft') prevComboImage()
-      if (e.key === 'ArrowRight') nextComboImage()
-      if (e.key === 'Escape') closeComboLightbox()
-    }
-    window.addEventListener('keydown', handler)
-    return () => window.removeEventListener('keydown', handler)
-  }, [comboLightboxIndex, prevComboImage, nextComboImage, closeComboLightbox])
-
-  const visibleCollections = allUnlocked ? collections : collections.slice(0, VISIBLE_BY_DEFAULT)
+  const openEnquiry = target => {
+    setEnquiryProduct({ title: target.name, img: target.cover })
+    setIsEnquiryModalOpen(true)
+  }
 
   return (
     <div className="collection-page">
-      <SEO
-        title="Our Collection | Kaya"
-        description="Explore our latest collection of premium women's bottom wear. New designs updated weekly."
-        url="https://www.kayaforyou.com/collection"
-      />
+      <CollectionSEO kind={kind} item={item} photoIndex={photoIndex} />
 
       <header className="collection-hero text-center">
         <div className="container">
           <span className="eyebrow">Seasonal 2026</span>
-          <h1 className="section-title">Signature <span className="text-yellow">Collection</span></h1>
-          <p className="page-subtitle">Explore our curated selection of premium bottom wear, designed for the modern woman who values style and comfort.</p>
+          {/* On detail pages the item name is the page's H1 (tracker #17, #19). */}
+          {item ? (
+            <p className="section-title heading-style">Signature <span className="text-yellow">Collection</span></p>
+          ) : (
+            <h1 className="section-title">Signature <span className="text-yellow">Collection</span></h1>
+          )}
+          <p className="page-subtitle">Explore our latest kurtis and kurti sets, built to sell out fast off your shelves</p>
 
-          <div className="collection-tabs" style={{ marginTop: '40px' }}>
-            <button
-              className={`tab-btn ${activeTab === 'catalogue' ? 'active' : ''}`}
-              onClick={() => { setActiveTab('catalogue'); setActiveCollection(null) }}
-            >
+          <nav className="collection-tabs" style={{ marginTop: '40px' }} aria-label="Collection type">
+            <NavLink to={COLLECTIONS_PATH} className={() => `tab-btn ${kind === 'collection' ? 'active' : ''}`}>
               Catalogue
-            </button>
-            <button
-              className={`tab-btn ${activeTab === 'sizecombo' ? 'active' : ''}`}
-              onClick={() => { setActiveTab('sizecombo'); setActiveCombo(null) }}
-            >
+            </NavLink>
+            <NavLink to={COMBOS_PATH} className={() => `tab-btn ${kind === 'combo' ? 'active' : ''}`}>
               Combo
-            </button>
-          </div>
+            </NavLink>
+          </nav>
         </div>
       </header>
 
-      
-      {activeTab === 'catalogue' && (
-        <section id="catalogue-section" style={{ padding: '180px 0 120px' }}>
-          <div className="container">
-
-            
-            {activeCollection && (
-              <button
-                className="coll-back-btn"
-                onClick={() => setActiveCollection(null)}
-              >
-                <ArrowLeft size={16} />
-                All Collections
-              </button>
-            )}
-
-            
-            {!activeCollection && (
-              <>
-                <div className="coll-card-grid">
-                  {visibleCollections.map((col, idx) => (
-                    <div
-                      key={col.id}
-                      className="coll-card"
-                      onClick={() => setActiveCollection(col)}
-                      aria-label={`Open ${col.name} collection`}
-                      role="button"
-                      tabIndex="0"
-                      onKeyDown={(e) => { if (e.key === 'Enter') setActiveCollection(col) }}
-                    >
-                      <div className="coll-card-img-wrap">
-                        <img src={col.cover} alt={col.name} loading={idx < 2 ? 'eager' : 'lazy'} />
-                        <div className="coll-card-overlay">
-                          <span className="coll-view-label">View Collection</span>
-                        </div>
-                        <button
-                          className={`btn-heart ${isInWishlist(col.id) ? 'active' : ''}`}
-                          onClick={(e) => { e.stopPropagation(); toggleWishlist(col.id); }}
-                          aria-label={`Mark interest in ${col.name}`}
-                        >
-                          <Heart className={isInWishlist(col.id) ? 'fill-yellow' : ''} />
-                        </button>
-                      </div>
-                      <div className="coll-card-info">
-                        <h3 className="coll-card-name">{col.name}</h3>
-                        <p className="coll-card-tagline">{col.tagline}</p>
-                        <span className="coll-card-count">{col.images.length} piece{col.images.length !== 1 ? 's' : ''}</span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-
-                
-                {!allUnlocked && (
-                  <div className="coll-gate">
-                    <div className="coll-gate-fade" />
-                    <div className="coll-gate-content">
-                      <p className="coll-gate-label">
-                        {collections.length - VISIBLE_BY_DEFAULT} more collections available
-                      </p>
-                      <button
-                        className="btn btn-primary coll-gate-btn"
-                        onClick={() => setIsUnlockModalOpen(true)}
-                      >
-                        <ChevronDown size={16} />
-                        View All Collections
-                      </button>
-                    </div>
-                  </div>
-                )}
-              </>
-            )}
-
-            
-            {activeCollection && (
-              <>
-                <div className="coll-detail-header">
-                  <h2 className="section-title">{activeCollection.name}</h2>
-                  <p className="body-text">{activeCollection.tagline}</p>
-                  <div className="accent-divider" />
-                </div>
-
-                <div className="coll-detail-grid">
-                  {activeCollection.images.map((src, idx) => (
+      <section id={kind === 'combo' ? 'size-combo-section' : 'catalogue-section'} style={{ padding: '180px 0 120px' }}>
+        <div className="container">
+          {item ? (
+            <ItemDetail kind={kind} item={item} onEnquire={() => openEnquiry(item)} />
+          ) : kind === 'collection' ? (
+            <>
+              <ItemGrid kind="collection" items={allUnlocked ? collections : collections.slice(0, VISIBLE_BY_DEFAULT)} />
+              {!allUnlocked && (
+                <div className="coll-gate">
+                  <div className="coll-gate-fade" />
+                  <div className="coll-gate-content">
+                    <p className="coll-gate-label">
+                      {collections.length - VISIBLE_BY_DEFAULT} more collections available
+                    </p>
                     <button
-                      key={idx}
-                      className="coll-img-tile"
-                      onClick={() => setLightboxIndex(idx)}
-                      aria-label={`View image ${idx + 1} of ${activeCollection.name}`}
+                      className="btn btn-primary coll-gate-btn"
+                      onClick={() => setIsUnlockModalOpen(true)}
                     >
-                      <img src={src} alt={`${activeCollection.name} ${idx + 1}`} loading="lazy" />
-                      <div className="coll-img-overlay">
-                        <span className="coll-zoom-icon">⤢</span>
-                      </div>
+                      <ChevronDown size={16} />
+                      View All Collections
                     </button>
-                  ))}
-                </div>
-
-                <div className="text-center mt-xl">
-                  <button
-                    className="btn btn-primary"
-                    onClick={() => {
-                      setEnquiryProduct({ title: activeCollection.name, img: activeCollection.cover })
-                      setIsEnquiryModalOpen(true)
-                    }}
-                  >
-                    <ShoppingBag size={16} />
-                    Enquire About This Collection
-                  </button>
-                </div>
-              </>
-            )}
-          </div>
-        </section>
-      )}
-
-      
-      {activeTab === 'sizecombo' && (
-        <section id="size-combo-section" style={{ padding: '180px 0 120px' }}>
-          <div className="container">
-
-            
-            {activeCombo && (
-              <button className="coll-back-btn" onClick={() => setActiveCombo(null)}>
-                <ArrowLeft size={16} />
-                All Combos
-              </button>
-            )}
-
-            
-            {!activeCombo && (
-              <>
-                <div className="text-center" style={{ marginBottom: '60px' }}>
-                  <span className="eyebrow">Curated Sets</span>
-                  <h2 className="section-title">Value <span className="text-yellow">Combos</span></h2>
-                  <p className="page-subtitle">Explore our exclusive combo sets — multiple colours, one stunning style.</p>
-                </div>
-                <div className="coll-card-grid">
-                  {combos.map((combo, idx) => (
-                    <div
-                      key={combo.id}
-                      className="coll-card"
-                      onClick={() => setActiveCombo(combo)}
-                      aria-label={`Open ${combo.name} combo`}
-                      role="button"
-                      tabIndex="0"
-                      onKeyDown={(e) => { if (e.key === 'Enter') setActiveCombo(combo) }}
-                    >
-                      <div className="coll-card-img-wrap">
-                        <img src={combo.cover} alt={combo.name} loading={idx < 2 ? 'eager' : 'lazy'} />
-                        <div className="coll-card-overlay">
-                          <span className="coll-view-label">View Combo</span>
-                        </div>
-                        <button
-                          className={`btn-heart ${isInWishlist(combo.id) ? 'active' : ''}`}
-                          onClick={(e) => { e.stopPropagation(); toggleWishlist(combo.id); }}
-                          aria-label={`Mark interest in ${combo.name}`}
-                        >
-                          <Heart className={isInWishlist(combo.id) ? 'fill-yellow' : ''} />
-                        </button>
-                      </div>
-                      <div className="coll-card-info">
-                        <h3 className="coll-card-name">{combo.name}</h3>
-                        <p className="coll-card-tagline">{combo.tagline}</p>
-                        <span className="coll-card-count">{combo.colors.length} {combo.colors.length === 1 ? 'colour' : 'colours'}</span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </>
-            )}
-
-            
-            {activeCombo && (
-              <>
-                <div className="coll-detail-header">
-                  <h2 className="section-title">{activeCombo.name}</h2>
-                  <p className="body-text">{activeCombo.tagline}</p>
-                  <div className="accent-divider" />
-                  
-                  <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', marginBottom: '40px' }}>
-                    {activeCombo.colors.map(c => (
-                      <span key={c} className="size-pill size-pill-lg">{c}</span>
-                    ))}
                   </div>
                 </div>
-
-                <div className="coll-detail-grid">
-                  {activeCombo.images.map((src, idx) => (
-                    <button
-                      key={idx}
-                      className="coll-img-tile"
-                      onClick={() => setComboLightboxIndex(idx)}
-                      aria-label={`View image ${idx + 1} of ${activeCombo.name}`}
-                    >
-                      <img src={src} alt={`${activeCombo.name} ${idx + 1}`} loading="lazy" />
-                      <div className="coll-img-overlay">
-                        <span className="coll-zoom-icon">⤢</span>
-                      </div>
-                    </button>
-                  ))}
-                </div>
-
-                <div className="text-center mt-xl">
-                  <button
-                    className="btn btn-primary"
-                    onClick={() => {
-                      setEnquiryProduct({ title: activeCombo.name, img: activeCombo.cover })
-                      setIsEnquiryModalOpen(true)
-                    }}
-                  >
-                    <ShoppingBag size={16} />
-                    Enquire About This Combo
-                  </button>
-                </div>
-              </>
-            )}
-
-          </div>
-        </section>
-      )}
-
-      
-      {comboLightboxIndex !== null && activeCombo && (
-        <div
-          className="lightbox-overlay"
-          onClick={closeComboLightbox}
-          role="dialog"
-          aria-modal="true"
-          aria-label="Combo image viewer"
-        >
-          <button className="lightbox-close" onClick={closeComboLightbox} aria-label="Close">
-            <X size={24} />
-          </button>
-          {activeCombo.images.length > 1 && (
-            <button
-              className="lightbox-nav lightbox-prev"
-              onClick={e => { e.stopPropagation(); prevComboImage() }}
-              aria-label="Previous image"
-            >
-              <ChevronLeft size={32} />
-            </button>
+              )}
+            </>
+          ) : (
+            <>
+              <div className="text-center" style={{ marginBottom: '60px' }}>
+                <span className="eyebrow">Curated Sets</span>
+                <h2 className="section-title">Value <span className="text-yellow">Combos</span></h2>
+                <p className="page-subtitle">Explore our exclusive combo sets — multiple colours, one stunning style.</p>
+              </div>
+              <ItemGrid kind="combo" items={combos} />
+            </>
           )}
-          <div className="lightbox-img-wrap" onClick={e => e.stopPropagation()}>
-            <img
-              src={activeCombo.images[comboLightboxIndex]}
-              alt={`${activeCombo.name} – image ${comboLightboxIndex + 1}`}
-            />
-          </div>
-          {activeCombo.images.length > 1 && (
-            <button
-              className="lightbox-nav lightbox-next"
-              onClick={e => { e.stopPropagation(); nextComboImage() }}
-              aria-label="Next image"
-            >
-              <ChevronRight size={32} />
-            </button>
-          )}
-          <div className="lightbox-counter">
-            {comboLightboxIndex + 1} / {activeCombo.images.length}
-          </div>
         </div>
+      </section>
+
+      {item && photoIndex !== null && (
+        <Lightbox kind={kind} item={item} index={photoIndex} />
       )}
 
-      
-      {lightboxIndex !== null && activeCollection && (
-        <div
-          className="lightbox-overlay"
-          onClick={closeLightbox}
-          role="dialog"
-          aria-modal="true"
-          aria-label="Image viewer"
-        >
-          <button className="lightbox-close" onClick={closeLightbox} aria-label="Close">
-            <X size={24} />
-          </button>
-
-          {activeCollection.images.length > 1 && (
-            <button
-              className="lightbox-nav lightbox-prev"
-              onClick={e => { e.stopPropagation(); prevImage() }}
-              aria-label="Previous image"
-            >
-              <ChevronLeft size={32} />
-            </button>
-          )}
-
-          <div className="lightbox-img-wrap" onClick={e => e.stopPropagation()}>
-            <img
-              src={activeCollection.images[lightboxIndex]}
-              alt={`${activeCollection.name} – image ${lightboxIndex + 1}`}
-            />
-          </div>
-
-          {activeCollection.images.length > 1 && (
-            <button
-              className="lightbox-nav lightbox-next"
-              onClick={e => { e.stopPropagation(); nextImage() }}
-              aria-label="Next image"
-            >
-              <ChevronRight size={32} />
-            </button>
-          )}
-
-          <div className="lightbox-counter">
-            {lightboxIndex + 1} / {activeCollection.images.length}
-          </div>
-        </div>
-      )}
-
-      
       {isUnlockModalOpen && (
         <UnlockModal
           onClose={() => setIsUnlockModalOpen(false)}
@@ -442,6 +158,199 @@ export default function CollectionPage() {
   )
 }
 
+function CollectionSEO({ kind, item, photoIndex }) {
+  const config = KINDS[kind]
+
+  if (!item) {
+    return kind === 'combo' ? (
+      <SEO
+        title="Kurti Combos | Kaya"
+        description="Kurti combo sets from Kaya: one design in multiple colours, ready for wholesale and retail buyers. New designs every week."
+        path={COMBOS_PATH}
+      />
+    ) : (
+      <SEO
+        title="Our Collection | Kaya"
+        description="Explore our latest kurtis and kurti sets, built to sell out fast off your shelves. New designs every week from Kaya, Ahmedabad."
+        path={COLLECTIONS_PATH}
+      />
+    )
+  }
+
+  // Photo pages share the item page's canonical URL, but use the photo itself
+  // as the preview image so a shared link shows that exact design.
+  const isPhoto = photoIndex !== null
+  const title = isPhoto
+    ? `${item.name} ${config.label}, Photo ${photoIndex + 1} | Kaya`
+    : `${item.name} ${config.label} | Kaya`
+
+  return (
+    <SEO
+      title={title}
+      description={`${item.name} ${config.label.toLowerCase()} by Kaya Kurti: ${item.tagline}. ${config.countLabel(item)}. Enquire for wholesale kurtis and kurti sets.`}
+      path={config.path(item.id)}
+      image={isPhoto ? item.images[photoIndex] : item.cover}
+    />
+  )
+}
+
+function ItemGrid({ kind, items }) {
+  const config = KINDS[kind]
+  const { toggleWishlist, isInWishlist } = useWishlist()
+
+  return (
+    <div className="coll-card-grid">
+      {items.map((item, idx) => (
+        <div key={item.id} className="coll-card">
+          <Link to={config.path(item.id)} className="coll-card-link">
+            <div className="coll-card-img-wrap">
+              <img src={item.cover} alt={photoAlt(item, 0)} loading={idx < 2 ? 'eager' : 'lazy'} />
+              <div className="coll-card-overlay">
+                <span className="coll-view-label">View {config.label}</span>
+              </div>
+            </div>
+            <div className="coll-card-info">
+              <h3 className="coll-card-name">{item.name}</h3>
+              <p className="coll-card-tagline">{item.tagline}</p>
+              <span className="coll-card-count">{config.countLabel(item)}</span>
+            </div>
+          </Link>
+          <button
+            className={`btn-heart ${isInWishlist(item.id) ? 'active' : ''}`}
+            onClick={() => toggleWishlist(item.id)}
+            aria-label={`Mark interest in ${item.name}`}
+          >
+            <Heart className={isInWishlist(item.id) ? 'fill-yellow' : ''} />
+          </button>
+        </div>
+      ))}
+    </div>
+  )
+}
+
+function ItemDetail({ kind, item, onEnquire }) {
+  const config = KINDS[kind]
+  const basePath = config.path(item.id)
+
+  return (
+    <>
+      <Link to={config.listPath} className="coll-back-btn">
+        <ArrowLeft size={16} />
+        {config.backLabel}
+      </Link>
+
+      <div className="coll-detail-header">
+        <h1 className="section-title">{item.name}</h1>
+        <p className="body-text">{item.tagline}</p>
+        <div className="accent-divider" />
+
+        {kind === 'combo' && (
+          <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', marginBottom: '40px' }}>
+            {item.colors.map(c => (
+              <span key={c} className="size-pill size-pill-lg">{c}</span>
+            ))}
+          </div>
+        )}
+      </div>
+
+      <div className="coll-detail-grid">
+        {item.images.map((src, idx) => (
+          <Link
+            key={src}
+            to={photoPath(basePath, idx + 1)}
+            state={{ fromGrid: true }}
+            className="coll-img-tile"
+            aria-label={`View image ${idx + 1} of ${item.name}`}
+          >
+            <img src={src} alt={photoAlt(item, idx)} loading="lazy" />
+            <div className="coll-img-overlay">
+              <span className="coll-zoom-icon">⤢</span>
+            </div>
+          </Link>
+        ))}
+      </div>
+
+      <div className="text-center mt-xl">
+        <button className="btn btn-primary" onClick={onEnquire}>
+          <ShoppingBag size={16} />
+          Enquire About This {config.label}
+        </button>
+      </div>
+    </>
+  )
+}
+
+function Lightbox({ kind, item, index }) {
+  const navigate = useNavigate()
+  const location = useLocation()
+  const basePath = KINDS[kind].path(item.id)
+  const count = item.images.length
+
+  // Prev/next replace the history entry, so Back closes the viewer instead of
+  // stepping through every photo viewed.
+  const goTo = useCallback(i => {
+    navigate(photoPath(basePath, ((i + count) % count) + 1), { replace: true, state: location.state })
+  }, [navigate, basePath, count, location.state])
+
+  const close = useCallback(() => {
+    // Opened from the grid: step back so Forward/Back history stays natural.
+    // Opened from a shared link: go to the item page instead of leaving the site.
+    if (location.state?.fromGrid) navigate(-1)
+    else navigate(basePath, { replace: true })
+  }, [navigate, basePath, location.state])
+
+  useEffect(() => {
+    const handler = e => {
+      if (e.key === 'ArrowLeft') goTo(index - 1)
+      if (e.key === 'ArrowRight') goTo(index + 1)
+      if (e.key === 'Escape') close()
+    }
+    window.addEventListener('keydown', handler)
+    return () => window.removeEventListener('keydown', handler)
+  }, [index, goTo, close])
+
+  return (
+    <div
+      className="lightbox-overlay"
+      onClick={close}
+      role="dialog"
+      aria-modal="true"
+      aria-label={`${item.name} image viewer`}
+    >
+      <button className="lightbox-close" onClick={close} aria-label="Close">
+        <X size={24} />
+      </button>
+
+      {count > 1 && (
+        <button
+          className="lightbox-nav lightbox-prev"
+          onClick={e => { e.stopPropagation(); goTo(index - 1) }}
+          aria-label="Previous image"
+        >
+          <ChevronLeft size={32} />
+        </button>
+      )}
+
+      <div className="lightbox-img-wrap" onClick={e => e.stopPropagation()}>
+        <img src={item.images[index]} alt={photoAlt(item, index)} />
+      </div>
+
+      {count > 1 && (
+        <button
+          className="lightbox-nav lightbox-next"
+          onClick={e => { e.stopPropagation(); goTo(index + 1) }}
+          aria-label="Next image"
+        >
+          <ChevronRight size={32} />
+        </button>
+      )}
+
+      <div className="lightbox-counter">
+        {index + 1} / {count}
+      </div>
+    </div>
+  )
+}
 
 function UnlockModal({ onClose, onUnlock }) {
   const [formData, setFormData] = useState({ name: '', email: '', phone: '', message: '' })
@@ -540,13 +449,13 @@ function UnlockModal({ onClose, onUnlock }) {
 
               <div className="business-card-uploader" style={{ marginBottom: '20px' }}>
                 <label className="uploader-label" style={{ fontSize: '0.65rem' }}>Upload your business card</label>
-                <div 
+                <div
                   className={`upload-area ${businessCard ? 'has-file' : ''}`}
                   onClick={() => fileInputRef.current?.click()}
                   style={{ minHeight: '80px', padding: '15px' }}
                 >
-                  <input 
-                    type="file" 
+                  <input
+                    type="file"
                     ref={fileInputRef}
                     onChange={handleFileChange}
                     accept="image/*"
@@ -588,4 +497,3 @@ function UnlockModal({ onClose, onUnlock }) {
     </div>
   )
 }
-

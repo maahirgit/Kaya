@@ -12,7 +12,7 @@ export default function AboutPage() {
       <SEO 
         title="About Us | Kaya"
         description="Learn about our manufacturing process and heritage."
-        url="https://www.kayaforyou.com/about"
+        path="/about"
       />
       <AboutUs />
     </div>

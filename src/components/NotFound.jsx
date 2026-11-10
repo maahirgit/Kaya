@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom'
+import SEO from './SEO'
 
 export default function NotFound() {
   const navigate = useNavigate()
@@ -14,6 +15,11 @@ export default function NotFound() {
       fontFamily: "'Inter', sans-serif",
       padding: '2rem'
     }}>
+      <SEO
+        title="Page Not Found | Kaya"
+        description="The page you're looking for has moved or no longer exists."
+        noindex
+      />
       <div style={{ maxWidth: '480px' }}>
         <div style={{
           fontFamily: "'Cinzel', serif",
