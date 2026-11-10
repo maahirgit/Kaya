@@ -27,7 +27,7 @@ export async function prerender({ url }) {
 
   // Keep Helmet's data-rh marker so the browser-side Helmet replaces these
   // tags on navigation instead of duplicating them.
-  const elements = new Set(
+  const tags = new Set(
     [...helmet.meta.toComponent(), ...helmet.link.toComponent()].map(el => ({
       type: el.type,
       // The plugin serialises attribute values as strings (e.g. data-rh={true}).
@@ -39,5 +39,16 @@ export async function prerender({ url }) {
     }))
   )
 
-  return { html, head: { lang: 'en', title, elements } }
+  // JSON-LD structured data (tracker #20). The plugin writes `children` as-is;
+  // StructuredData already escapes "<" inside the JSON.
+  for (const el of helmet.script.toComponent()) {
+    const { dangerouslySetInnerHTML, children, ...attrs } = el.props
+    tags.add({
+      type: 'script',
+      props: Object.fromEntries(Object.entries(attrs).map(([k, v]) => [k, String(v)])),
+      children: dangerouslySetInnerHTML?.__html ?? children,
+    })
+  }
+
+  return { html, head: { lang: 'en', title, elements: tags } }
 }

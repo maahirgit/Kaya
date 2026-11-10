@@ -3,6 +3,8 @@ import AboutUs from './AboutUs'
 import Catalogue from './Catalogue'
 import BlogSection from './BlogSection'
 import SEO from './SEO'
+import StructuredData from './StructuredData'
+import { businessSchema } from '../data/structuredData'
 
 export default function Home() {
   return (
@@ -13,6 +15,7 @@ export default function Home() {
         keywords="kurti manufacturer, fast fashion manufacturer, wholesale kurtis, kurti sets, women ethnic wear, bulk kurtis, new kurti designs"
         path="/"
       />
+      <StructuredData data={businessSchema()} />
       <Hero />
       <AboutUs />
       <Catalogue />

@@ -2,6 +2,8 @@ import { useState, useEffect, useCallback, useRef } from 'react'
 import { Link, NavLink, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { Heart, ShoppingBag, X, ChevronLeft, ChevronRight, ArrowLeft, Send, ChevronDown, Upload } from 'lucide-react'
 import SEO from './SEO'
+import StructuredData from './StructuredData'
+import { breadcrumbSchema, collectionListCrumbs, comboListCrumbs, collectionCrumbs, comboCrumbs } from '../data/structuredData'
 import EnquiryModal from './EnquiryModal'
 import NotFound from './NotFound'
 import { useWishlist } from '../context/WishlistContext'
@@ -163,17 +165,23 @@ function CollectionSEO({ kind, item, photoIndex }) {
 
   if (!item) {
     return kind === 'combo' ? (
-      <SEO
-        title="Kurti Combos | Kaya"
-        description="Kurti combo sets from Kaya: one design in multiple colours, ready for wholesale and retail buyers. New designs every week."
-        path={COMBOS_PATH}
-      />
+      <>
+        <SEO
+          title="Kurti Combos | Kaya"
+          description="Kurti combo sets from Kaya: one design in multiple colours, ready for wholesale and retail buyers. New designs every week."
+          path={COMBOS_PATH}
+        />
+        <StructuredData data={breadcrumbSchema(comboListCrumbs())} />
+      </>
     ) : (
-      <SEO
-        title="Our Collection | Kaya"
-        description="Explore our latest kurtis and kurti sets, built to sell out fast off your shelves. New designs every week from Kaya, Ahmedabad."
-        path={COLLECTIONS_PATH}
-      />
+      <>
+        <SEO
+          title="Our Collection | Kaya"
+          description="Explore our latest kurtis and kurti sets, built to sell out fast off your shelves. New designs every week from Kaya, Ahmedabad."
+          path={COLLECTIONS_PATH}
+        />
+        <StructuredData data={breadcrumbSchema(collectionListCrumbs())} />
+      </>
     )
   }
 
@@ -184,13 +192,18 @@ function CollectionSEO({ kind, item, photoIndex }) {
     ? `${item.name} ${config.label}, Photo ${photoIndex + 1} | Kaya`
     : `${item.name} ${config.label} | Kaya`
 
+  const crumbs = kind === 'combo' ? comboCrumbs(item, config.path(item.id)) : collectionCrumbs(item, config.path(item.id))
+
   return (
-    <SEO
-      title={title}
-      description={`${item.name} ${config.label.toLowerCase()} by Kaya Kurti: ${item.tagline}. ${config.countLabel(item)}. Enquire for wholesale kurtis and kurti sets.`}
-      path={config.path(item.id)}
-      image={isPhoto ? item.images[photoIndex] : item.cover}
-    />
+    <>
+      <SEO
+        title={title}
+        description={`${item.name} ${config.label.toLowerCase()} by Kaya Kurti: ${item.tagline}. ${config.countLabel(item)}. Enquire for wholesale kurtis and kurti sets.`}
+        path={config.path(item.id)}
+        image={isPhoto ? item.images[photoIndex] : item.cover}
+      />
+      <StructuredData data={breadcrumbSchema(crumbs)} />
+    </>
   )
 }
 

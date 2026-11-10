@@ -3,6 +3,8 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { ArrowLeft } from 'lucide-react'
 import { blogs } from '../data/blogs'
 import SEO from './SEO'
+import StructuredData from './StructuredData'
+import { articleSchema, blogCrumbs, breadcrumbSchema } from '../data/structuredData'
 
 export default function BlogPostPage() {
   const { id } = useParams()
@@ -32,6 +34,8 @@ export default function BlogPostPage() {
         keywords="kurti manufacturer, wholesale kurtis, fabric guide, kurti business"
         path={`/blogs/${blog.id}`}
       />
+      <StructuredData data={articleSchema(blog)} />
+      <StructuredData data={breadcrumbSchema(blogCrumbs(blog))} />
 
       <div className="blog-post-page">
         <div className="blog-post-container">
