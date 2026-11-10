@@ -8,6 +8,8 @@ import EnquiryModal from './EnquiryModal'
 import NotFound from './NotFound'
 import { useWishlist } from '../context/WishlistContext'
 import { trackEvent } from '../utils/analytics'
+import { submitToSheets } from '../utils/submitToSheets'
+import { uploadToCloudinary } from '../utils/uploadToCloudinary'
 import { collections } from '../data/collections'
 import { combos } from '../data/combos'
 import { COLLECTIONS_PATH, COMBOS_PATH, collectionPath, comboPath, photoPath, photoAlt } from '../data/routes'
@@ -392,9 +394,28 @@ function UnlockModal({ onClose, onUnlock }) {
     if (fileInputRef.current) fileInputRef.current.value = ''
   }
 
+  // Sends the details to the Google Sheet like the other forms (Source =
+  // "Unlock"). Runs in the background so the visitor still sees "You're In!"
+  // straight away, as before.
+  const saveLead = async () => {
+    let businessCardUrl = ''
+    if (businessCard) {
+      businessCardUrl = await uploadToCloudinary(businessCard.file) || ''
+    }
+    await submitToSheets({
+      source: 'Unlock',
+      name: formData.name,
+      email: formData.email,
+      phone: formData.phone,
+      message: formData.message,
+      businessCardUrl
+    })
+  }
+
   const handleSubmit = e => {
     e.preventDefault()
     trackEvent('unlock_collections_submit')
+    saveLead()
     setSubmitted(true)
     setTimeout(() => {
       onUnlock()
