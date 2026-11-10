@@ -2,6 +2,7 @@ import { Instagram, Facebook, Upload, X } from 'lucide-react'
 import { useState, useRef } from 'react'
 import { submitToSheets } from '../utils/submitToSheets'
 import { uploadToCloudinary } from '../utils/uploadToCloudinary'
+import { trackEvent } from '../utils/analytics'
 
 export default function Footer() {
   const [formData, setFormData] = useState({ name: '', phone: '', email: '', subject: '', message: '' })
@@ -28,6 +29,7 @@ export default function Footer() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     setIsSubmitting(true)
+    trackEvent('contact_form_submit', { form: 'footer' })
 
     let businessCardUrl = ''
     if (businessCard) {

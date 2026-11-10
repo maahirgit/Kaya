@@ -11,9 +11,22 @@ import NotFound from './components/NotFound'
 import Footer from './components/Footer'
 import FloatingWhatsApp from './components/FloatingWhatsApp'
 import { WishlistProvider } from './context/WishlistContext'
+import { initAnalytics, trackPageView } from './utils/analytics'
 
 export default function App() {
   const location = useLocation()
+
+  // Tracker #5/#8: start GA4 / Meta Pixel (no-op until IDs are set).
+  useEffect(() => {
+    initAnalytics()
+  }, [])
+
+  // One page view per route change. Short delay so the new page's <title>
+  // (set by Helmet) is in place before it is recorded.
+  useEffect(() => {
+    const timer = setTimeout(() => trackPageView(location.pathname), 300)
+    return () => clearTimeout(timer)
+  }, [location.pathname])
 
   useEffect(() => {
     const revealObserver = new IntersectionObserver((entries) => {

@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect } from 'react'
+import { trackEvent } from '../utils/analytics'
 
 const WishlistContext = createContext()
 const STORAGE_KEY = 'kaya_wishlist'
@@ -36,6 +37,7 @@ export function WishlistProvider({ children }) {
   }, [wishlist, loaded])
 
   const toggleWishlist = (productId) => {
+    if (!wishlist.includes(productId)) trackEvent('wishlist_add', { item_id: String(productId) })
     setWishlist(prev => {
       if (prev.includes(productId)) {
         return prev.filter(id => id !== productId)

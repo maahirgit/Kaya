@@ -2,6 +2,7 @@ import { useState, useRef } from 'react'
 import { X, Send, ShoppingBag, Upload } from 'lucide-react'
 import { submitToSheets } from '../utils/submitToSheets'
 import { uploadToCloudinary } from '../utils/uploadToCloudinary'
+import { trackEvent } from '../utils/analytics'
 
 export default function EnquiryModal({ isOpen, onClose, product }) {
   const [submitted, setSubmitted] = useState(false)
@@ -40,6 +41,7 @@ export default function EnquiryModal({ isOpen, onClose, product }) {
   const handleSubmit = async (e) => {
     e.preventDefault()
     setIsSubmitting(true)
+    trackEvent('enquiry_submit', { product: product?.title || '' })
 
     let businessCardUrl = ''
     if (businessCard) {

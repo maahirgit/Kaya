@@ -7,6 +7,7 @@ import { breadcrumbSchema, collectionListCrumbs, comboListCrumbs, collectionCrum
 import EnquiryModal from './EnquiryModal'
 import NotFound from './NotFound'
 import { useWishlist } from '../context/WishlistContext'
+import { trackEvent } from '../utils/analytics'
 import { collections } from '../data/collections'
 import { combos } from '../data/combos'
 import { COLLECTIONS_PATH, COMBOS_PATH, collectionPath, comboPath, photoPath, photoAlt } from '../data/routes'
@@ -393,6 +394,7 @@ function UnlockModal({ onClose, onUnlock }) {
 
   const handleSubmit = e => {
     e.preventDefault()
+    trackEvent('unlock_collections_submit')
     setSubmitted(true)
     setTimeout(() => {
       onUnlock()

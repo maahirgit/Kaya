@@ -1,6 +1,7 @@
 import { ArrowRight } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { blogs } from '../data/blogs'
+import { trackEvent } from '../utils/analytics'
 
 // headingTag: 'h1' on the Blogs page, 'h2' inside the home page (tracker #19).
 export default function BlogSection({ headingTag: Heading = 'h2' }) {
@@ -19,6 +20,7 @@ export default function BlogSection({ headingTag: Heading = 'h2' }) {
             <Link
               key={blog.id}
               to={`/blogs/${blog.id}`}
+              onClick={() => trackEvent('blog_read_click', { blog_id: blog.id })}
               className={`blog-card reveal-up delay-${(idx % 3) + 1}`}
             >
               <div className="blog-card-content">
