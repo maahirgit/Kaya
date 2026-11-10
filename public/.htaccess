@@ -1,0 +1,35 @@
+# Kaya website: Apache rules for cPanel hosting.
+# This file is copied into dist/ by `npm run build`; upload it to public_html
+# together with the rest of dist/.
+
+Options -Indexes -MultiViews
+DirectoryIndex index.html
+
+# Each page is a prerendered folder (e.g. dist/about/index.html). Stop Apache
+# from redirecting /about to /about/ so URLs match the canonical tags.
+DirectorySlash Off
+
+RewriteEngine On
+
+# 1. www -> non-www (tracker #14)
+RewriteCond %{HTTP_HOST} ^www\.kayaforyou\.com$ [NC]
+RewriteRule ^(.*)$ https://kayaforyou.com/$1 [R=301,L]
+
+# 2. Remove a trailing slash: /about/ -> /about
+RewriteRule ^(.+)/$ /$1 [R=301,L]
+
+# 3. Home page
+RewriteRule ^$ /index.html [L]
+
+# 4. Prerendered pages: /collection/abhinetri -> /collection/abhinetri/index.html
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteCond %{REQUEST_FILENAME}/index.html -f
+RewriteRule ^(.+)$ /$1/index.html [L]
+
+# 5. Real files (images, scripts, sitemap.xml, robots.txt) are served as they are
+RewriteCond %{REQUEST_FILENAME} -f
+RewriteRule ^ - [L]
+
+# 6. Anything else shows the "Page Not Found" page. It still answers with
+#    status 200, as the site does today; real 404s are tracker #13.
+RewriteRule ^ /404.html [L]
