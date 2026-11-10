@@ -2,6 +2,7 @@ import { useState, useRef } from 'react'
 import { X, Send, Upload } from 'lucide-react'
 import { submitToSheets } from '../utils/submitToSheets'
 import { uploadToCloudinary } from '../utils/uploadToCloudinary'
+import { trackEvent } from '../utils/analytics'
 
 export default function LeadFormModal({ isOpen, onClose, onFormSuccess }) {
   const [formData, setFormData] = useState({
@@ -38,6 +39,7 @@ export default function LeadFormModal({ isOpen, onClose, onFormSuccess }) {
   const handleSubmit = async (e) => {
     e.preventDefault()
     setIsSubmitting(true)
+    trackEvent('lead_form_submit', { form: 'access_collection' })
 
     let businessCardUrl = ''
     if (businessCard) {
