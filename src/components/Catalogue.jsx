@@ -45,7 +45,7 @@ export default function Catalogue() {
     >
       <div className="container-wide text-center">
         <span className="eyebrow">The Collection</span>
-        <h1 className="section-title">Complete Your Look</h1>
+        <h2 className="section-title">Complete Your Look</h2>
         <div className="accent-divider center-div"></div>
 
         <div className="grid portfolio-grid mt-md">
@@ -87,7 +87,7 @@ export default function Catalogue() {
                 <span className={`portfolio-tag mb-xs d-block`}>
                   {p.type}
                 </span>
-                <h2 itemProp="name" className="mb-sm">{p.name}</h2>
+                <h3 itemProp="name" className="mb-sm portfolio-name">{p.name}</h3>
                 <p itemProp="description" className="body-text">{p.tagline}</p>
               </div>
             </article>

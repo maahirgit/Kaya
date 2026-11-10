@@ -14,7 +14,7 @@ export default function AboutPage() {
         description="Learn about our manufacturing process and heritage."
         path="/about"
       />
-      <AboutUs />
+      <AboutUs headingTag="h1" />
     </div>
   )
 }

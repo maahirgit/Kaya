@@ -2,13 +2,14 @@ import { ArrowRight } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { blogs } from '../data/blogs'
 
-export default function BlogSection() {
+// headingTag: 'h1' on the Blogs page, 'h2' inside the home page (tracker #19).
+export default function BlogSection({ headingTag: Heading = 'h2' }) {
   return (
     <section className="blog-section section-padding" id="blog">
       <div className="container">
         <div className="section-header text-center reveal-up">
           <span className="eyebrow">Industry Insights</span>
-          <h2 className="section-title">Wholesale <span className="text-yellow">Knowledge Hub</span></h2>
+          <Heading className="section-title">Wholesale <span className="text-yellow">Knowledge Hub</span></Heading>
           <p className="body-text">Deep research, market trends, and sourcing guides for B2B buyers.</p>
           <div className="accent-divider center-div"></div>
         </div>

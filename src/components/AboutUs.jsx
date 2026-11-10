@@ -1,6 +1,7 @@
 import { ArrowRight } from 'lucide-react'
 
-export default function AboutUs() {
+// headingTag: 'h1' on the About page, 'h2' inside the home page (tracker #19).
+export default function AboutUs({ headingTag: Heading = 'h2' }) {
   return (
     <section className="about-split" id="about">
       <div className="about-split-inner">
@@ -17,9 +18,9 @@ export default function AboutUs() {
 
         <div className="about-split-text reveal-right">
           <span className="eyebrow">Our Story</span>
-          <h2 className="section-title">
+          <Heading className="section-title">
             Revolutionizing Fast-Fashion<span className="text-blue"> Manufacturing in Ahmedabad</span>
-          </h2>
+          </Heading>
           <div className="accent-divider"></div>
           <p className="body-text">
             In the B2B fashion sector, the winner isn't just the one with the best design—it’s the one with the fastest supply chain. For retail chains and wholesalers, the challenge is maintaining high inventory turnover while keeping acquisition costs low.

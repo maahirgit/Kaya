@@ -14,7 +14,7 @@ export default function BlogsPage() {
         description="Deep research, market trends, and sourcing guides for B2B buyers."
         path="/blogs"
       />
-      <BlogSection />
+      <BlogSection headingTag="h1" />
     </div>
   )
 }
