@@ -1,35 +1,39 @@
-# Kaya website: Apache rules for cPanel hosting.
-# This file is copied into dist/ by `npm run build`; upload it to public_html
-# together with the rest of dist/.
+Options -MultiViews
+AddType application/javascript .js .mjs
+AddType text/css .css
 
-Options -Indexes -MultiViews
-DirectoryIndex index.html
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
 
-# Each page is a prerendered folder (e.g. dist/about/index.html). Stop Apache
-# from redirecting /about to /about/ so URLs match the canonical tags.
-DirectorySlash Off
+  # www -> non-www (tracker #14)
+  RewriteCond %{HTTP_HOST} ^www\.kayaforyou\.com$ [NC]
+  RewriteRule ^(.*)$ https://kayaforyou.com/$1 [R=301,L]
 
-RewriteEngine On
+  # Allow assets folder to pass through directly
+  RewriteRule ^assets/ - [L]
 
-# 1. www -> non-www (tracker #14)
-RewriteCond %{HTTP_HOST} ^www\.kayaforyou\.com$ [NC]
-RewriteRule ^(.*)$ https://kayaforyou.com/$1 [R=301,L]
+  # Home page
+  RewriteRule ^$ /index.html [L]
 
-# 2. Remove a trailing slash: /about/ -> /about
-RewriteRule ^(.+)/$ /$1 [R=301,L]
+  # Prerendered pages (tracker #11) are kept in /_pages:
+  # /collection/abhinetri (with or without a trailing slash)
+  #   -> /_pages/collection/abhinetri/index.html
+  RewriteCond %{DOCUMENT_ROOT}/_pages/$1/index.html -f
+  RewriteRule ^(.+?)/?$ /_pages/$1/index.html [L]
 
-# 3. Home page
-RewriteRule ^$ /index.html [L]
+  # Skip rewrite for other existing files (sitemap.xml, robots.txt, logo...)
+  RewriteCond %{REQUEST_FILENAME} -f
+  RewriteRule ^ - [L]
 
-# 4. Prerendered pages: /collection/abhinetri -> /collection/abhinetri/index.html
-RewriteCond %{REQUEST_FILENAME} -d
-RewriteCond %{REQUEST_FILENAME}/index.html -f
-RewriteRule ^(.+)$ /$1/index.html [L]
+  # Send everything else to the "Page Not Found" page (status 200 as before;
+  # real 404s are tracker #13)
+  RewriteRule ^ /404.html [L]
+</IfModule>
 
-# 5. Real files (images, scripts, sitemap.xml, robots.txt) are served as they are
-RewriteCond %{REQUEST_FILENAME} -f
-RewriteRule ^ - [L]
-
-# 6. Anything else shows the "Page Not Found" page. It still answers with
-#    status 200, as the site does today; real 404s are tracker #13.
-RewriteRule ^ /404.html [L]
+# php -- BEGIN cPanel-generated handler, do not edit
+# Set the “ea-php83” package as the default “PHP” programming language.
+<IfModule mime_module>
+  AddHandler application/x-httpd-ea-php83___lsphp .php .php8 .phtml
+</IfModule>
+# php -- END cPanel-generated handler, do not edit
