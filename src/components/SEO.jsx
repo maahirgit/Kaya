@@ -6,7 +6,8 @@ const DEFAULT_IMAGE = '/kaya-logo.png';
 
 export default function SEO({ title, description, keywords, path, image = DEFAULT_IMAGE, noindex = false }) {
   const url = path ? absoluteUrl(path) : null;
-  const imageUrl = image.startsWith('http') ? image : absoluteUrl(image);
+  // encodeURI: some photo file names contain spaces (e.g. "K-8507-B GREEN.jpg").
+  const imageUrl = encodeURI(image.startsWith('http') ? image : absoluteUrl(image));
 
   return (
     <Helmet>

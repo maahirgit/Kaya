@@ -1,16 +1,39 @@
 import { createContext, useContext, useState, useEffect } from 'react'
 
 const WishlistContext = createContext()
+const STORAGE_KEY = 'kaya_wishlist'
+
+function readSavedWishlist() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY))
+    return Array.isArray(saved) ? saved : []
+  } catch {
+    // Storage blocked (private mode) or corrupted value: start empty.
+    return []
+  }
+}
 
 export function WishlistProvider({ children }) {
-  const [wishlist, setWishlist] = useState(() => {
-    const saved = localStorage.getItem('kaya_wishlist')
-    return saved ? JSON.parse(saved) : []
-  })
+  // Start empty so the first client render matches the prerendered HTML,
+  // then load the saved list once the page is running in the browser.
+  const [wishlist, setWishlist] = useState([])
+  const [loaded, setLoaded] = useState(false)
 
   useEffect(() => {
-    localStorage.setItem('kaya_wishlist', JSON.stringify(wishlist))
-  }, [wishlist])
+    setWishlist(readSavedWishlist())
+    setLoaded(true)
+  }, [])
+
+  // Only save after the saved list has been loaded, so it is never
+  // overwritten with the initial empty list.
+  useEffect(() => {
+    if (!loaded) return
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(wishlist))
+    } catch {
+      // Ignore: the wishlist still works for this visit.
+    }
+  }, [wishlist, loaded])
 
   const toggleWishlist = (productId) => {
     setWishlist(prev => {
@@ -44,4 +67,3 @@ export function useWishlist() {
   }
   return context
 }
-
